@@ -33,7 +33,6 @@ const usePiniaStore = defineStore('productStore', () => {
 
     const getCategory = async (api: ApiType = $api) => {
         const { code, data } = await api.get<ProductState['category']>('/home/getCategory', { })
-        console.log(111, data)
         if (code === 200 && !isEmpty(data)) {
             state.category = data
         }
