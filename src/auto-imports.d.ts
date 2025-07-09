@@ -55,7 +55,6 @@ declare global {
   const deepClone: typeof import('@lincy/utils')['deepClone']
   const deepEqual: typeof import('@lincy/utils')['deepEqual']
   const deepMerge: typeof import('@lincy/utils')['deepMerge']
-  const defaultList: typeof import('./composables/storage')['defaultList']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']

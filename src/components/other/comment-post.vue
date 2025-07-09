@@ -21,13 +21,13 @@
 </template>
 
 <script setup lang="ts">
-type CommentStoreKey = keyof typeof commentStorage
+import type { CommentCategoryType } from '~/types/components.types'
 
 defineOptions({
     name: 'CommentPost',
 })
 const props = defineProps<{
-    type: CommentStoreKey
+    type: CommentCategoryType
     id: string | number
 }>()
 
@@ -54,7 +54,7 @@ async function handleSubmit() {
         ElMessage.success('评论成功')
         form.content = ''
         form.user = ''
-        emitter.emit(`refresh-${String(props.type)}-comment`)
+        emitter.emit(`refresh-${props.type}-comment`)
     }
     else {
         ElMessage.error('评论失败')

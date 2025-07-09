@@ -38,17 +38,17 @@
 </template>
 
 <script setup lang="ts">
-import type { commentStorage } from '~/composables/storage'
-import type { CommentType } from '~/types/comments.types'
+import type { CommentList } from '~/types/comments.types'
+import type { CommentCategoryType } from '~/types/components.types'
+import type { ListType } from '~/types/global.types'
 import type { InitType } from '~/types/home.types'
-
-type CommentStoreKey = keyof typeof commentStorage
+import { defaultList } from '~/constants'
 
 defineOptions({
     name: 'CommentLists',
 })
 const props = defineProps<{
-    type: CommentStoreKey
+    type: CommentCategoryType
     id: string | number
 }>()
 
@@ -59,7 +59,7 @@ const { detail } = storeToRefs(commentStore)
 
 let page = $ref<number>(1)
 
-const commentList = computed<CommentType>(() => detail.value[`${type}-${id}`] || defaultList())
+const commentList = computed<ListType<CommentList>>(() => detail.value[`${type}-${id}`] || defaultList())
 
 const commnetBox = ref<HTMLElement>()
 async function initFn(action: InitType = 'init-data') {

@@ -1,7 +1,7 @@
 {
   "name": "vite-nitro-vue-ssr",
   "type": "module",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "prepare": "npx simple-git-hooks",

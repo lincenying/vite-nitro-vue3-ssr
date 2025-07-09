@@ -1,4 +1,5 @@
-import type { CommentType } from '~/types/comments.types'
+import type { CommentList } from '~/types/comments.types'
+import type { ListType } from '~/types/global.types'
 import type { CommentState } from '~/types/pinia.types'
 import { acceptHMRUpdate } from 'pinia'
 
@@ -13,7 +14,7 @@ const usePiniaStore = defineStore('commentStore', () => {
         detail: {},
     })
     const getComment = async (payload: PayloadType, api: ApiType = $api) => {
-        const { code, data } = await api.get<CommentType>('/comment/getList', payload)
+        const { code, data } = await api.get<ListType<CommentList>>('/comment/getList', payload)
         if (code === 200 && data) {
             state.detail[`${payload.type}-${payload.id}`] = data
         }

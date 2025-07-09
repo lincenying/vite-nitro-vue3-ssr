@@ -1,8 +1,8 @@
 import type { ArticleType } from '~/types/article.types'
 import type { CasesType } from '~/types/cases.types'
-import type { CommentType } from '~/types/comments.types'
+import type { CommentList } from '~/types/comments.types'
 import type { FaqsType } from '~/types/faqs.types'
-import type { ListType } from '~/types/global'
+import type { ListType } from '~/types/global.types'
 import type { ProductsType } from '~/types/home.types'
 import type { NewsType } from '~/types/news.types'
 
@@ -70,6 +70,6 @@ export interface UserState {
 
 export interface CommentState {
     detail: {
-        [key: string]: CommentType
+        [key: string]: ListType<CommentList>
     }
 }

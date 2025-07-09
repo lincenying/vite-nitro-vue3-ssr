@@ -1,5 +1,5 @@
 import type { FetchOptions } from 'ofetch'
-import type { LoadedType } from '~/types/global'
+import type { LoadedType } from '~/types/global.types'
 import { ofetch } from 'ofetch'
 
 /**
@@ -34,7 +34,7 @@ export const useApi: (cookies?: string) => ApiType = (cookies) => {
         delete(url: string, data?: Objable, options?: FetchOptions) {
             return this.RESTful(url, 'delete', data, options)
         },
-        async RESTful(url, method = 'get', data, options) {
+        async RESTful(url, method = 'get', data, options?: FetchOptions) {
             const response = await apiFetch(url, {
                 method,
                 query: method === 'get' ? data : undefined,

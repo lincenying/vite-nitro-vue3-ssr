@@ -1,4 +1,4 @@
-import type { CusRouteComponent } from './types/global'
+import type { CusRouteComponent } from './types/global.types'
 
 import { createHead } from '@unhead/vue/client'
 import { createApp } from 'vue'

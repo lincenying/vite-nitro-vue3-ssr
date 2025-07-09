@@ -21,6 +21,6 @@ declare module '@vue/runtime-core' {
 export {}
 declare module 'vue' {
     interface ComponentCustomOptions {
-        asyncData?: (ctx: import('./types/global').AsyncDataConfig) => Promise<any>
+        asyncData?: (ctx: import('./types/global.types').AsyncDataConfig) => Promise<any>
     }
 }

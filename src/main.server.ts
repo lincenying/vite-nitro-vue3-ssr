@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import type { CusRouteComponent } from './types/global'
+import type { CusRouteComponent } from './types/global.types'
 import { basename } from 'node:path'
 import { parseCookies } from '@lincy/utils'
 
