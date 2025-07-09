@@ -1,13 +1,18 @@
 import mitt from 'mitt'
 
-const emitter = mitt<{
+interface EmitterEvents {
     'change-category': number
     'refresh-product-comment': any
     'refresh-case-comment': any
     'refresh-news-comment': any
     'refresh-faq-comment': any
     'refresh-article-comment': any
-}>()
+}
+
+// 添加索引签名以满足mitt的类型约束
+type EmitterEventsMap = Record<keyof EmitterEvents, any> & Record<string, unknown>
+
+const emitter = mitt<EmitterEventsMap>()
 
 // 创建并暴露mitt
 export default emitter

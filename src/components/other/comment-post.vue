@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-type CommentStoreKey = keyof typeof commentStore
+type CommentStoreKey = keyof typeof commentStorage
 
 defineOptions({
     name: 'CommentPost',
@@ -54,7 +54,7 @@ async function handleSubmit() {
         ElMessage.success('评论成功')
         form.content = ''
         form.user = ''
-        emitter.emit(`refresh-${props.type}-comment`)
+        emitter.emit(`refresh-${String(props.type)}-comment`)
     }
     else {
         ElMessage.error('评论失败')

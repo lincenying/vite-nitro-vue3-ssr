@@ -1,9 +1,7 @@
-import type { AxiosHeaders, AxiosRequestConfig, AxiosResponse } from 'axios'
+import type { FetchOptions } from 'ofetch'
 import type { LoadedType } from '~/types/global'
-import axios from 'axios'
-import { userStorage } from './storage'
-
-const userStore = useUserStore(piniaInit)
+import { ofetch } from 'ofetch'
+import { normalizeCookiePath } from '~/utils'
 
 function objToStr(cookies: Record<string, string | number | boolean>) {
     if (!cookies) {
@@ -16,88 +14,8 @@ function objToStr(cookies: Record<string, string | number | boolean>) {
     return cookie
 }
 
-const headers: AxiosRequestConfig['headers'] = {
-    'X-Requested-With': 'XMLHttpRequest',
-    'Content-Type': 'application/json',
-}
-
-const baseConfig = {
-    headers,
-    timeout: 5000,
-    withCredentials: false,
-}
-
-if (import.meta.env.VITE_APP_ENV === 'production') {
-    baseConfig.timeout = 300000
-}
-
-axios.interceptors.request.use(
-    config => config,
-    error => Promise.resolve(error.response || error),
-)
-
-axios.interceptors.response.use(
-    response => response,
-    (error) => {
-        const response = {} as AxiosResponse
-        response.config = error.config
-        response.data = null
-        response.headers = error.config?.headers
-        response.status = error.code
-        response.statusText = error.message
-        response.request = error.request
-        return Promise.resolve(response)
-    },
-)
-
-function checkStatus(response: AxiosResponse): ResponseData<any> {
-    if (response.status === 200 || response.status === 304) {
-        return response.data
-    }
-    if (response.status === 401) {
-        return {
-            code: 401,
-            info: response.statusText || response.toString(),
-            data: response.statusText || response.toString(),
-            message: `您还没有登录, 或者登录超时!`,
-
-        }
-    }
-    return {
-        code: -404,
-        info: response.statusText || response.toString(),
-        data: response.statusText || response.toString(),
-        message: `接口返回数据错误, 错误代码: ${response.status || '未知'}`,
-    }
-}
-
-function checkCodeFn(data: ResponseData<any>) {
-    const code = [0, 200, 1000]
-    if (data.code === 401) {
-        userStorage.value = {
-            info: {},
-            token: '',
-        }
-        // const pathname = encodeURIComponent(window.location.pathname)
-        // if (!window.$$lock) {
-        //     window.$$lock = true
-        //     loginMsgBox('当前登录状态已失效, 请重新登录', pathname)
-        // }
-        userStore.setToken('')
-    }
-    else if (!code.includes(Number(data.code))) {
-        if (!import.meta.env.SSR) {
-            showMsg(data.message)
-        }
-    }
-    else {
-        data.code = 200
-    }
-    return data
-}
-
 /**
- * axios Api 封装
+ * ofetch Api 封装
  * ```
     get<T>(url: string, params?: Objable, header?: Objable, checkCode?: boolean): Promise<ResponseData<T>>
     post<T>(url: string, data?: Objable, header?: Objable, checkCode?: boolean): Promise<ResponseData<T>>
@@ -106,83 +24,58 @@ function checkCodeFn(data: ResponseData<any>) {
  * ```
  */
 export const useApi: (cookies?: Objable) => ApiType = (cookies) => {
-    if (cookies) {
-        baseConfig.headers.cookie = objToStr(cookies)
-    }
+    const apiFetch = ofetch.create({
+        baseURL: `${import.meta.env.VITE_APP_API}`,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            // 处理 cookies
+            'Cookie': cookies ? normalizeCookiePath(objToStr(cookies)) : '',
+        },
+    })
+
     return {
-        post(url: string, data?: Objable, header?: Objable, checkCode = true) {
-            return this.RESTful(url, 'post', data, header, checkCode)
+        post(url: string, data?: Objable, options?: FetchOptions) {
+            return this.RESTful(url, 'post', data, options)
         },
-        get(url: string, data?: Objable, header?: Objable, checkCode = true) {
-            return this.RESTful(url, 'get', data, header, checkCode)
+        get(url: string, data?: Objable, options?: FetchOptions) {
+            return this.RESTful(url, 'get', data, options)
         },
-        put(url: string, data?: Objable, header?: Objable, checkCode = true) {
-            return this.RESTful(url, 'put', data, header, checkCode)
+        put(url: string, data?: Objable, options?: FetchOptions) {
+            return this.RESTful(url, 'put', data, options)
         },
-        delete(url: string, data?: Objable, header?: Objable, checkCode = true) {
-            return this.RESTful(url, 'delete', data, header, checkCode)
+        delete(url: string, data?: Objable, options?: FetchOptions) {
+            return this.RESTful(url, 'delete', data, options)
         },
-        async downFile(url, method = 'get', data) {
-            const config: AxiosRequestConfig = {
-                ...baseConfig,
-                responseType: 'arraybuffer',
+        async RESTful(url, method = 'get', data, options) {
+            const response = await apiFetch(url, {
                 method,
-                url: import.meta.env.VITE_APP_API + url,
-            }
-            if (method === 'get') {
-                config.params = data
-            }
-            else {
-                config.data = data
-            }
-
-            if (url.includes('NoTimeout')) {
-                config.timeout = 9999999
-            }
-            const response = await axios<ArrayBuffer>(config)
-            return response && response.data
-        },
-
-        async RESTful(url, method = 'get', data, header, checkCode) {
-            const xhr = await this.$RESTful(url, method, data, header)
-            if (checkCode) {
-                return checkCodeFn(xhr)
-            }
-            return xhr
-        },
-        async $RESTful(url, method = 'get', data, header) {
-            url = import.meta.env.VITE_APP_API + url
-
-            const config: AxiosRequestConfig = {
-                ...baseConfig,
-                headers: {
-                    ...baseConfig.headers,
-                    ...header,
+                query: method === 'get' ? data : undefined,
+                body: method === 'get' ? undefined : data,
+                timeout: 3000, // Timeout after 3 seconds
+                onRequestError({ error }) {
+                    ElMessage.closeAll()
+                    error && ElMessage.error('Sorry, The Data Request Failed')
                 },
-                method,
-                url,
-            }
-            if (userStorage.value && userStorage.value.token) {
-                (config.headers as AxiosHeaders).Authorization = `Bearer ${userStorage.value.token}`
-            }
+                onResponse({ response }) {
+                    if (response._data.code !== 200) {
+                        ElMessage.error(response._data.message)
+                        return response._data = null
+                    }
+                    return response._data = response._data || 'success'
+                },
+                onResponseError({ response }) {
+                    // Log error
+                    console.log('[fetch response error]', response.status)
+                },
+                ...options,
 
-            if (method === 'get') {
-                config.params = data
-            }
-            else {
-                config.data = data
-            }
-
-            if (url.includes('NoTimeout')) {
-                config.timeout = 9999999
-            }
-            const response = await axios(config)
-            return checkStatus(response)
+            })
+            return response
         },
     }
 }
 if (typeof window !== 'undefined') {
-    window.axios = axios
     window.$$api = useApi()
 }
 export const $api = useApi()

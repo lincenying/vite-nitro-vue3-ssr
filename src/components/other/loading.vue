@@ -6,6 +6,4 @@
 defineOptions({
     name: 'Loading',
 })
-
-const loading = ref(true)
 </script>

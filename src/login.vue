@@ -22,7 +22,7 @@ defineOptions({
     name: 'Login',
 })
 
-const { ctx } = useGlobal('login')
+const { ctx } = useGlobal()
 
 // pinia 状态管理 ===>
 // const { counter, name } = storeToRefs(globalStore)

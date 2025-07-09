@@ -27,10 +27,17 @@ export default defineConfig(({ isSsrBuild, mode }) => {
         assetsInclude: [
             '/static/**',
         ],
-        build: Build.build,
         server: {
             open: true,
+            port: 5273,
+            hmr: {
+                port: 55273,
+            },
+            warmup: {
+                clientFiles: ['./src/main.ts', './src/views/*.vue'],
+            },
         },
+        build: Build.build,
         css: Css,
         resolve: {
             mainFields: ['module'],
@@ -49,6 +56,10 @@ export default defineConfig(({ isSsrBuild, mode }) => {
             ...Macros(),
             nitro({
                 ssr: true,
+                static: false,
+                prerender: {
+                    routes: [],
+                },
                 entryServer: `${__dirname}/src/main.server.ts`,
             }, {
                 srcDir: 'server',

@@ -24,8 +24,9 @@
 <script lang="ts" setup>
 import type { FormInstance, FormItemRule } from 'element-plus'
 
-import Rules from '@lincy/async-validation'
+import type { GlobalDialogLayer, GlobalDiaslogInstance } from '~/types/components.types'
 
+import Rules from '@lincy/async-validation'
 import globalDialog from '~/components/global/dialog.vue'
 import { ElMessage } from '~/config/element'
 

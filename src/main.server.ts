@@ -24,6 +24,8 @@ export default async function render(url: string, template: string, req: any) {
         current: 0,
     })
     const head = createHead()
+    const api = useApi(req && req.cookies)
+
     setupPinia(app).use(head).use(router)
 
     router.push(url)
@@ -39,7 +41,7 @@ export default async function render(url: string, template: string, req: any) {
     const globalStore = useGlobalStore(piniaInit)
     const productStore = useProductStore(piniaInit)
     globalStore.setCookies(req.cookies)
-    await productStore.getCategory()
+    await productStore.getCategory(api)
 
     try {
         await Promise.all(
@@ -49,7 +51,7 @@ export default async function render(url: string, template: string, req: any) {
                         store: piniaInit,
                         route: router.currentRoute.value,
                         req,
-                        api: useApi(req && req.cookies),
+                        api,
                     })
                 }
                 return null

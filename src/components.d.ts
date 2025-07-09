@@ -29,7 +29,6 @@ declare module 'vue' {
     GlobalDigital: typeof import('./components/global/digital.tsx')['default']
     GlobalFooter: typeof import('./components/global/footer.vue')['default']
     GlobalHeader: typeof import('./components/global/header.vue')['default']
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     HomeCategory: typeof import('./components/home/category.vue')['default']
     HomeRecommend: typeof import('./components/home/recommend.vue')['default']
     NewsRecommend: typeof import('./components/news/recommend.vue')['default']
@@ -40,8 +39,5 @@ declare module 'vue' {
     OtherTopBanner: typeof import('./components/other/top-banner.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-  }
-  export interface GlobalDirectives {
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

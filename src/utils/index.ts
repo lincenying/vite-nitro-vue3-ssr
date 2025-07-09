@@ -61,7 +61,6 @@ export function normalizeCookiePath(cookieStr: string): string {
         else {
             // 提取属性名（key）和值（value）
             const key = part.substring(0, eqIndex).trim()
-            const _value = part.substring(eqIndex + 1).trim()
 
             // 检测 Path 属性（不区分大小写）
             if (key.toLowerCase() === 'path') {

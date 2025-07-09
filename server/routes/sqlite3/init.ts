@@ -28,7 +28,7 @@ export default defineEventHandler(async () => {
             "date" VARCHAR(20)
         )`,
     )
-    const result = []
+    const result: { [key: string]: any }[] = []
 
     for (const sql of sqlArray) {
         const data = await db.prepare(sql).run()
