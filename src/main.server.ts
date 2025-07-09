@@ -1,8 +1,10 @@
+import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { CusRouteComponent } from './types/global'
 import { basename } from 'node:path'
+import { parseCookies } from '@lincy/utils'
+
 import { createHead, renderSSRHead } from '@unhead/vue/server'
 import { ID_INJECTION_KEY, ZINDEX_INJECTION_KEY } from 'element-plus'
-
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
@@ -13,7 +15,7 @@ function replaceHtmlTag(html: string): string {
     return html.replace(/<script(.*?)>/gi, '&lt;script$1&gt;').replace(/<\/script>/g, '&lt;/script&gt;')
 }
 
-export default async function render(url: string, template: string, req: any) {
+export default async function render(url: string, template: string, context: { req: IncomingMessage, res: ServerResponse }) {
     if (url.startsWith('/.well-known') || url.startsWith('/sm/')) {
         return ''
     }
@@ -24,10 +26,12 @@ export default async function render(url: string, template: string, req: any) {
         current: 0,
     })
     const head = createHead()
-    const api = useApi(req && req.cookies)
+    const cookies = parseCookies(context?.req?.headers?.cookie || '')
+    const api = useApi(context?.req?.headers?.cookie)
 
     setupPinia(app).use(head).use(router)
 
+    console.log('%c[url] >> ', 'color: red', url)
     router.push(url)
     await router.isReady()
     console.log('server router ready')
@@ -40,7 +44,7 @@ export default async function render(url: string, template: string, req: any) {
 
     const globalStore = useGlobalStore(piniaInit)
     const productStore = useProductStore(piniaInit)
-    globalStore.setCookies(req.cookies)
+    globalStore.setCookies(cookies)
     await productStore.getCategory(api)
 
     try {
@@ -50,7 +54,7 @@ export default async function render(url: string, template: string, req: any) {
                     return component.asyncData({
                         store: piniaInit,
                         route: router.currentRoute.value,
-                        req,
+                        req: context.req,
                         api,
                     })
                 }

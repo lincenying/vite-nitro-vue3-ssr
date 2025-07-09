@@ -1,18 +1,6 @@
 import type { FetchOptions } from 'ofetch'
 import type { LoadedType } from '~/types/global'
 import { ofetch } from 'ofetch'
-import { normalizeCookiePath } from '~/utils'
-
-function objToStr(cookies: Record<string, string | number | boolean>) {
-    if (!cookies) {
-        return ''
-    }
-    let cookie = ''
-    Object.keys(cookies).forEach((item) => {
-        cookie += `${item}=${cookies[item]}; `
-    })
-    return cookie
-}
 
 /**
  * ofetch Api 封装
@@ -23,14 +11,13 @@ function objToStr(cookies: Record<string, string | number | boolean>) {
     delete<T>(url: string, data?: Objable, header?: Objable, checkCode?: boolean): Promise<ResponseData<T>>
  * ```
  */
-export const useApi: (cookies?: Objable) => ApiType = (cookies) => {
+export const useApi: (cookies?: string) => ApiType = (cookies) => {
     const apiFetch = ofetch.create({
         baseURL: `${import.meta.env.VITE_APP_API}`,
         headers: {
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
-            // 处理 cookies
-            'Cookie': cookies ? normalizeCookiePath(objToStr(cookies)) : '',
+            'Cookie': cookies || '',
         },
     })
 

@@ -1,5 +1,5 @@
 import type { ListPageType } from '../../types'
-import { defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery, setCookie } from 'h3'
 import Mock from 'mockjs'
 import { getRandomValue } from '../../utils'
 import { imgUrl } from '../../utils/img'
@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
         currPage: Number(page),
     }
     const data = Mock.mock(template)
+    setCookie(event, 'productlist', 'value', { maxAge: 60 * 60 * 24 * 7 })
     return {
         code: 200,
         message: 'ok',
