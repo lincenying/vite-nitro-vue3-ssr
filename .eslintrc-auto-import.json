@@ -65,7 +65,6 @@
     "deepClone": true,
     "deepEqual": true,
     "deepMerge": true,
-    "defaultList": true,
     "defineAsyncComponent": true,
     "defineComponent": true,
     "defineStore": true,

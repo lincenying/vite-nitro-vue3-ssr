@@ -442,7 +442,6 @@ declare module 'vue' {
     readonly deepClone: UnwrapRef<typeof import('@lincy/utils')['deepClone']>
     readonly deepEqual: UnwrapRef<typeof import('@lincy/utils')['deepEqual']>
     readonly deepMerge: UnwrapRef<typeof import('@lincy/utils')['deepMerge']>
-    readonly defaultList: UnwrapRef<typeof import('./composables/storage')['defaultList']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>

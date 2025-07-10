@@ -47,7 +47,7 @@ const usePiniaStore = defineStore('productStore', () => {
 
     const getDetail = async (id: string, api: ApiType = $api) => {
         const { code, data } = await api.get<NewsType>('/news/detail', { id })
-        if (code === 200 && data) {
+        if (code === 200 && !isEmpty(data)) {
             state.detail[id] = data
         }
 
@@ -56,7 +56,7 @@ const usePiniaStore = defineStore('productStore', () => {
 
     const getRelatedRecom = async (api: ApiType = $api) => {
         const { code, data } = await api.get<ProductState['relatedRecom']>('/home/relatedRecom', { })
-        if (code === 200 && data) {
+        if (code === 200 && !isEmpty(data)) {
             state.relatedRecom = data
         }
 

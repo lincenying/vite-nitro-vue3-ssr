@@ -1,6 +1,7 @@
 import type { CommentList } from '~/types/comments.types'
 import type { ListType } from '~/types/global.types'
 import type { CommentState } from '~/types/pinia.types'
+import { isEmpty } from '@lincy/utils'
 import { acceptHMRUpdate } from 'pinia'
 
 interface PayloadType {
@@ -15,7 +16,7 @@ const usePiniaStore = defineStore('commentStore', () => {
     })
     const getComment = async (payload: PayloadType, api: ApiType = $api) => {
         const { code, data } = await api.get<ListType<CommentList>>('/comment/getList', payload)
-        if (code === 200 && data) {
+        if (code === 200 && !isEmpty(data)) {
             state.detail[`${payload.type}-${payload.id}`] = data
         }
 
