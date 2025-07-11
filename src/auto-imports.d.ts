@@ -622,7 +622,6 @@ declare module 'vue' {
     readonly useFaqsStore: UnwrapRef<typeof import('./stores/use-faqs-store')['default']>
     readonly useFavicon: UnwrapRef<typeof import('@vueuse/core')['useFavicon']>
     readonly useFetch: UnwrapRef<typeof import('@vueuse/core')['useFetch']>
-    readonly useFetchData: UnwrapRef<typeof import('./composables/fetch')['useFetchData']>
     readonly useFetcher: UnwrapRef<typeof import('./composables/alova')['useFetcher']>
     readonly useFileDialog: UnwrapRef<typeof import('@vueuse/core')['useFileDialog']>
     readonly useFileSystemAccess: UnwrapRef<typeof import('@vueuse/core')['useFileSystemAccess']>

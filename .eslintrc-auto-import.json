@@ -245,7 +245,6 @@
     "useFaqsStore": true,
     "useFavicon": true,
     "useFetch": true,
-    "useFetchData": true,
     "useFetcher": true,
     "useFileDialog": true,
     "useFileSystemAccess": true,

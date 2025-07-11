@@ -1,5 +1,5 @@
 <template>
-    <div id="root" flex="~ col">
+    <div id="root" flex="~ col" :style="ISDEV ? 'display: none' : ''">
         <globalHeader />
         <router-view v-slot="{ Component }" class="body">
             <transition
@@ -26,6 +26,8 @@ defineOptions({
 
 // pinia 状态管理 ===>
 const globalStore = useGlobalStore()
+
+const { ISDEV } = storeToRefs(globalStore)
 
 const userStore = useUserStore()
 
