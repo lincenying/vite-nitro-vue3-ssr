@@ -78,6 +78,8 @@ defineOptions({
     },
 })
 
+emitter.emit('setMenuActive', 'home')
+
 const id = $(useRouteQuery<string>('id'))
 
 const productStore = useProductStore()
@@ -109,7 +111,5 @@ useHead({
     title: `${productDetail.value.title} - 产品展示 - ${appName}`,
 })
 
-onMounted(() => {
-    useSaveScroll()
-})
+useSaveScroll()
 </script>

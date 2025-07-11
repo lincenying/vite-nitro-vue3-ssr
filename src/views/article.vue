@@ -81,6 +81,8 @@ defineOptions({
     },
 })
 
+emitter.emit('setMenuActive', 'article')
+
 let page = $ref<number>(1)
 const pageSize = $ref<number>(12)
 
@@ -124,9 +126,7 @@ useHead({
     title: `SQLite文章 - ${appName}`,
 })
 
-onMounted(() => {
-    useSaveScroll()
-})
+useSaveScroll()
 
 // 弹窗控制器
 const layer: GlobalDialogLayer<Nullable<ArticleType>> = reactive({

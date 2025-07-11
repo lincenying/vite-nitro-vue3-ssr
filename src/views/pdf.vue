@@ -36,6 +36,8 @@ useHead({
     title: 'MMF小屋-PDF文件查看',
 })
 
+emitter.emit('setMenuActive', 'pdf')
+
 const loading = ref(true)
 
 const highlightText = ref('技术认证')
@@ -46,7 +48,5 @@ const highlightOptions = ref({
 
 const { pdf, pages } = usePDF('/static/pdf/pdf.pdf')
 
-onMounted(() => {
-    useSaveScroll()
-})
+useSaveScroll()
 </script>

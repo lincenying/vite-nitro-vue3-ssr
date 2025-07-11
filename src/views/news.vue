@@ -74,6 +74,8 @@ defineOptions({
     },
 })
 
+emitter.emit('setMenuActive', 'news')
+
 let page = $ref<number>(1)
 const pageSize = $ref<number>(12)
 const category = $(useRouteQuery<string>('category'))
@@ -116,7 +118,5 @@ useHead({
     title: `新闻中心 - ${appName}`,
 })
 
-onMounted(() => {
-    useSaveScroll()
-})
+useSaveScroll()
 </script>

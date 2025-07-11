@@ -77,6 +77,8 @@ defineOptions({
     },
 })
 
+emitter.emit('setMenuActive', 'faqs')
+
 const id = $(useRouteQuery<string>('id'))
 
 const faqsStore = useFaqsStore()
@@ -108,7 +110,5 @@ useHead({
     title: `${faqDetail.value.title} - 常见问题 - ${appName}`,
 })
 
-onMounted(() => {
-    useSaveScroll()
-})
+useSaveScroll()
 </script>

@@ -7,6 +7,7 @@ interface EmitterEvents {
     'refresh-news-comment': any
     'refresh-faq-comment': any
     'refresh-article-comment': any
+    'setMenuActive': string
 }
 
 // 添加索引签名以满足mitt的类型约束

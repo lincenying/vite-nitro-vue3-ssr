@@ -98,6 +98,8 @@ defineOptions({
 
 const { ctx } = useGlobal()
 
+emitter.emit('setMenuActive', 'home')
+
 const navigation = ref<HTMLElement>()
 
 let page = $ref<number>(1)
@@ -145,12 +147,14 @@ useHead({
     title: `产品展示 - ${appName}`,
 })
 
+useSaveScroll()
+
 onUnmounted(() => {
     emitter.off('change-category')
 })
 
 onMounted(() => {
-    useSaveScroll()
+    console.log(`onMounted`)
     ctx.$notify.success('This is a success message.')
 })
 </script>

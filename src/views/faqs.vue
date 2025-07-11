@@ -63,6 +63,9 @@ defineOptions({
         ])
     },
 })
+
+emitter.emit('setMenuActive', 'faqs')
+
 let page = $ref<number>(1)
 const pageSize = $ref<number>(12)
 const category = $(useRouteQuery<string>('category'))
@@ -105,7 +108,5 @@ useHead({
     title: `常见问题 - ${appName}`,
 })
 
-onMounted(() => {
-    useSaveScroll()
-})
+useSaveScroll()
 </script>

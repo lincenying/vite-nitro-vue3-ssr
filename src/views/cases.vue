@@ -83,6 +83,8 @@ defineOptions({
     },
 })
 
+emitter.emit('setMenuActive', 'cases')
+
 let page = $ref<number>(1)
 const pageSize = $ref<number>(12)
 const category = $(useRouteQuery<string>('category'))
@@ -125,7 +127,5 @@ useHead({
     title: `案例展示 - ${appName}`,
 })
 
-onMounted(() => {
-    useSaveScroll()
-})
+useSaveScroll()
 </script>

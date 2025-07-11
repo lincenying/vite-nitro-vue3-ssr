@@ -78,6 +78,8 @@ defineOptions({
     },
 })
 
+emitter.emit('setMenuActive', 'cases')
+
 const id = $(useRouteQuery<string>('id'))
 
 const casesStore = useCasesStore()
@@ -109,7 +111,5 @@ useHead({
     title: `${caseDetail.value.title} - 案例展示 - ${appName}`,
 })
 
-onMounted(() => {
-    useSaveScroll()
-})
+useSaveScroll()
 </script>

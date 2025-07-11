@@ -82,6 +82,8 @@ defineOptions({
     },
 })
 
+emitter.emit('setMenuActive', 'article')
+
 const id = $(useRouteQuery<string>('id'))
 
 const articleStore = useArticleStore()
@@ -113,9 +115,7 @@ useHead({
     title: `${articleDetail.value.title} - SQLite文章 - ${appName}`,
 })
 
-onMounted(() => {
-    useSaveScroll()
-})
+useSaveScroll()
 
 function nl2br(str: string) {
     return str.replace(/\n/g, '<br />')

@@ -76,6 +76,8 @@ defineOptions({
     },
 })
 
+emitter.emit('setMenuActive', 'news')
+
 const id = $(useRouteQuery<string>('id'))
 
 const newsStore = useFaqsStore()
@@ -107,7 +109,5 @@ useHead({
     title: `${newsDetail.value.title} - 新闻中心 - ${appName}`,
 })
 
-onMounted(() => {
-    useSaveScroll()
-})
+useSaveScroll()
 </script>
