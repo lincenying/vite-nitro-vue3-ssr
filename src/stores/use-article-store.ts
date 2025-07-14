@@ -35,7 +35,7 @@ const usePiniaStore = defineStore('articleStore', () => {
     }
 
     const getRelatedRecom = async (api: ApiType = $api) => {
-        const { code, data } = await api.get<ArticleType[]>('/sqlite3/article/relatedRecom', { })
+        const { code, data } = await api.get<ArticleType[]>('/sqlite3/article/related-recom', { })
         if (code === 200 && !isEmpty(data)) {
             state.relatedRecom = data
         }

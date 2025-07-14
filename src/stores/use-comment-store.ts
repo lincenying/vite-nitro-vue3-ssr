@@ -15,7 +15,7 @@ const usePiniaStore = defineStore('commentStore', () => {
         detail: {},
     })
     const getComment = async (payload: PayloadType, api: ApiType = $api) => {
-        const { code, data } = await api.get<ListType<CommentList>>('/comment/getList', payload)
+        const { code, data } = await api.get<ListType<CommentList>>('/comment/lists', payload)
         if (code === 200 && !isEmpty(data)) {
             state.detail[`${payload.type}-${payload.id}`] = data
         }

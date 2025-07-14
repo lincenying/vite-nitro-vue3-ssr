@@ -25,21 +25,21 @@ const usePiniaStore = defineStore('productStore', () => {
     }
 
     const getIndex = async (payload: PayloadType, api: ApiType = $api) => {
-        const { code, data } = await api.get<ProductState['index']>('/home/getList', payload)
+        const { code, data } = await api.get<ProductState['index']>('/home/lists', payload)
         if (code === 200 && !isEmpty(data)) {
             state.index = data
         }
     }
 
     const getCategory = async (api: ApiType = $api) => {
-        const { code, data } = await api.get<ProductState['category']>('/home/getCategory', { })
+        const { code, data } = await api.get<ProductState['category']>('/home/category', { })
         if (code === 200 && !isEmpty(data)) {
             state.category = data
         }
     }
 
     const getRecommend = async (api: ApiType = $api) => {
-        const { code, data } = await api.get<ProductState['recommend']>('/home/getRecommend', { })
+        const { code, data } = await api.get<ProductState['recommend']>('/home/recommend', { })
         if (code === 200 && !isEmpty(data)) {
             state.recommend = data
         }
@@ -55,7 +55,7 @@ const usePiniaStore = defineStore('productStore', () => {
     }
 
     const getRelatedRecom = async (api: ApiType = $api) => {
-        const { code, data } = await api.get<ProductState['relatedRecom']>('/home/relatedRecom', { })
+        const { code, data } = await api.get<ProductState['relatedRecom']>('/home/related-recom', { })
         if (code === 200 && !isEmpty(data)) {
             state.relatedRecom = data
         }

@@ -19,14 +19,14 @@ const usePiniaStore = defineStore('casesStore', () => {
     })
 
     const getIndex = async (payload: PayloadType, api: ApiType = $api) => {
-        const { code, data } = await api.get<CasesState['index']>('/api/cases/getList', payload)
+        const { code, data } = await api.get<CasesState['index']>('/cases/lists', payload)
         if (code === 200 && !isEmpty(data)) {
             state.index = data
         }
     }
 
     const getDetail = async (id: string, api: ApiType = $api) => {
-        const { code, data } = await api.get<NewsType>('/api/news/detail', { id })
+        const { code, data } = await api.get<NewsType>('/news/detail', { id })
         if (code === 200 && !isEmpty(data)) {
             state.detail[id] = data
         }
@@ -35,7 +35,7 @@ const usePiniaStore = defineStore('casesStore', () => {
     }
 
     const getRelatedRecom = async (api: ApiType = $api) => {
-        const { code, data } = await api.get<CasesState['relatedRecom']>('/cases/relatedRecom', { })
+        const { code, data } = await api.get<CasesState['relatedRecom']>('/cases/related-recom', { })
         if (code === 200 && !isEmpty(data)) {
             state.relatedRecom = data
         }

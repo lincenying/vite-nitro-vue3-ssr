@@ -20,14 +20,14 @@ const usePiniaStore = defineStore('newsStore', () => {
     })
 
     const getIndex = async (payload: PayloadType, api: ApiType = $api) => {
-        const { code, data } = await api.get<NewsState['index'] | undefined>('/api/news/getList', payload)
+        const { code, data } = await api.get<NewsState['index'] | undefined>('/news/lists', payload)
         if (code === 200 && !isEmpty(data)) {
             state.index = data
         }
     }
 
     const getDetail = async (id: string, api: ApiType = $api) => {
-        const { code, data } = await api.get<NewsType>('/api/news/detail', { id })
+        const { code, data } = await api.get<NewsType>('/news/detail', { id })
         if (code === 200 && !isEmpty(data)) {
             state.detail[id] = data
         }
@@ -36,14 +36,14 @@ const usePiniaStore = defineStore('newsStore', () => {
     }
 
     const getRecommend = async (api: ApiType = $api) => {
-        const { code, data } = await api.get<NewsState['recommend']>('/news/getRecommend', { })
+        const { code, data } = await api.get<NewsState['recommend']>('/news/recommend', { })
         if (code === 200 && !isEmpty(data)) {
             state.recommend = data
         }
     }
 
     const getRelatedRecom = async (api: ApiType = $api) => {
-        const { code, data } = await api.get<NewsState['relatedRecom']>('/news/relatedRecom', { })
+        const { code, data } = await api.get<NewsState['relatedRecom']>('/news/related-recom', { })
         if (code === 200 && !isEmpty(data)) {
             state.relatedRecom = data
         }
