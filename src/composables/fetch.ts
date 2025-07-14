@@ -14,6 +14,8 @@ import { normalizeCookiePath } from '~/utils'
  * ```
  */
 export const useApi: (cookies?: string, H3Event?: H3Event) => ApiType = (cookies, H3Event) => {
+    const isSSR = !!import.meta.env.SSR
+
     const apiFetch = ofetch.create({
         baseURL: `${import.meta.env.VITE_APP_API}`,
         headers: {
@@ -37,14 +39,18 @@ export const useApi: (cookies?: string, H3Event?: H3Event) => ApiType = (cookies
             return this.RESTful(url, 'delete', data, options)
         },
         async RESTful(url, method = 'get', data, options?: FetchOptions) {
+            console.log('%c[request-url] >> ', 'color: red', import.meta.env.VITE_APP_API + url, data)
             const response = await apiFetch(url, {
                 method,
                 query: method === 'get' ? data : undefined,
                 body: method === 'get' ? undefined : data,
                 timeout: 3000, // Timeout after 3 seconds
                 onRequestError({ error }) {
-                    ElMessage.closeAll()
-                    error && ElMessage.error('Sorry, The Data Request Failed')
+                    if (!isSSR) {
+                        ElMessage.closeAll()
+                        error && ElMessage.error('Sorry, The Data Request Failed')
+                    }
+                    console.log('[fetch response error]', error)
                 },
                 onResponse({ response }) {
                     const setCookies = response.headers.getSetCookie()
@@ -54,7 +60,8 @@ export const useApi: (cookies?: string, H3Event?: H3Event) => ApiType = (cookies
                         }
                     }
                     if (response._data.code !== 200) {
-                        ElMessage.error(response._data.message)
+                        if (!isSSR)
+                            ElMessage.error(response._data.message)
                         return response._data = null
                     }
                     return response._data = response._data || 'success'
