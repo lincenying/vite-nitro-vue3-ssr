@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
         currPage: Number(page),
     }
     const data = Mock.mock(template)
-    setCookie(event, 'productlist', 'value', { maxAge: 60 * 60 * 24 * 7 })
+    setCookie(event, 'productlist', `${+new Date()}`, { maxAge: 60 * 60 * 24 * 7 })
     return {
         code: 200,
         message: 'ok',

@@ -5,6 +5,7 @@ import { parseCookies } from '@lincy/utils'
 
 import { createHead, renderSSRHead } from '@unhead/vue/server'
 import { ID_INJECTION_KEY, ZINDEX_INJECTION_KEY } from 'element-plus'
+import { createEvent } from 'h3'
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
@@ -19,6 +20,8 @@ export default async function render(url: string, template: string, context: { r
     if (url.startsWith('/.well-known') || url.startsWith('/sm/')) {
         return ''
     }
+    const H3Event = createEvent(context?.req, context?.res)
+
     const app = createSSRApp(App)
     app.provide(ZINDEX_INJECTION_KEY, { current: 0 })
     app.provide(ID_INJECTION_KEY, {
@@ -27,7 +30,7 @@ export default async function render(url: string, template: string, context: { r
     })
     const head = createHead()
     const cookies = parseCookies(context?.req?.headers?.cookie || '')
-    const api = useApi(context?.req?.headers?.cookie)
+    const api = useApi(context?.req?.headers?.cookie, H3Event)
 
     setupPinia(app).use(head).use(router)
 
@@ -70,6 +73,7 @@ export default async function render(url: string, template: string, context: { r
     let content = await renderToString(app, ctx)
     const preloadLinks = renderPreloadLinks(ctx.modules, {})
     const { headTags } = await renderSSRHead(head)
+
     content += `<script>window.__INITIAL_STATE__ = ${replaceHtmlTag(JSON.stringify(piniaInit.state.value))}</script>`
 
     const html = template

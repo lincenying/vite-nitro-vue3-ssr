@@ -1,5 +1,8 @@
+import type { H3Event } from 'h3'
 import type { FetchOptions } from 'ofetch'
+import { appendResponseHeader } from 'h3'
 import { ofetch } from 'ofetch'
+import { normalizeCookiePath } from '~/utils'
 
 /**
  * ofetch Api 封装
@@ -10,7 +13,7 @@ import { ofetch } from 'ofetch'
     delete<T>(url: string, data?: Objable, header?: Objable, checkCode?: boolean): Promise<ResponseData<T>>
  * ```
  */
-export const useApi: (cookies?: string) => ApiType = (cookies) => {
+export const useApi: (cookies?: string, H3Event?: H3Event) => ApiType = (cookies, H3Event) => {
     const apiFetch = ofetch.create({
         baseURL: `${import.meta.env.VITE_APP_API}`,
         headers: {
@@ -44,6 +47,12 @@ export const useApi: (cookies?: string) => ApiType = (cookies) => {
                     error && ElMessage.error('Sorry, The Data Request Failed')
                 },
                 onResponse({ response }) {
+                    const setCookies = response.headers.getSetCookie()
+                    if (H3Event && cookies && cookies.length > 0) {
+                        for (const cookie of setCookies) {
+                            appendResponseHeader(H3Event, 'set-cookie', normalizeCookiePath(cookie))
+                        }
+                    }
                     if (response._data.code !== 200) {
                         ElMessage.error(response._data.message)
                         return response._data = null
