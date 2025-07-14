@@ -5,7 +5,7 @@ import { parseCookies } from '@lincy/utils'
 
 import { createHead, renderSSRHead } from '@unhead/vue/server'
 import { ID_INJECTION_KEY, ZINDEX_INJECTION_KEY } from 'element-plus'
-import { createEvent } from 'h3'
+import { createEvent, sendRedirect } from 'h3'
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
@@ -30,6 +30,14 @@ export default async function render(url: string, template: string, context: { r
     })
     const head = createHead()
     const cookies = parseCookies(context?.req?.headers?.cookie || '')
+
+    if (cookies.token && url.includes('/login')) {
+        return sendRedirect(H3Event, '/')
+    }
+    if (!cookies.token && !url.includes('/login')) {
+        return sendRedirect(H3Event, '/login')
+    }
+
     const api = useApi(context?.req?.headers?.cookie, H3Event)
 
     setupPinia(app).use(head).use(router)
@@ -43,12 +51,16 @@ export default async function render(url: string, template: string, context: { r
         // context.throw(404, "Not Found");
     }
 
-    const matchedComponents = router.currentRoute.value.matched.flatMap(record => Object.values(record.components as Record<string, CusRouteComponent>))
+    const matchedComponents = router.currentRoute.value.matched.flatMap((record) => {
+        return Object.values(record.components as Record<string, CusRouteComponent>)
+    })
 
     const globalStore = useGlobalStore(piniaInit)
     const productStore = useProductStore(piniaInit)
     globalStore.setCookies(cookies)
     await productStore.getCategory(api)
+
+    console.log(matchedComponents)
 
     try {
         await Promise.all(

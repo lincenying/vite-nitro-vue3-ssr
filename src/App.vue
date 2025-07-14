@@ -1,6 +1,6 @@
 <template>
     <div id="root" flex="~ col" :style="ISDEV ? 'display: none' : ''">
-        <globalHeader />
+        <globalHeader v-if="!isLoginPage" />
         <router-view v-slot="{ Component }" class="body">
             <transition
                 name="fade" mode="out-in"
@@ -15,7 +15,7 @@
                 </keep-alive>
             </transition>
         </router-view>
-        <globalFooter />
+        <globalFooter v-if="!isLoginPage" />
     </div>
 </template>
 
@@ -30,6 +30,12 @@ const globalStore = useGlobalStore()
 const { ISDEV } = storeToRefs(globalStore)
 
 const userStore = useUserStore()
+
+const router = useRouter()
+
+const isLoginPage = computed(() => {
+    return router.currentRoute.value.name === 'login'
+})
 
 // const tmpCount = computed(() => globalStore.counter)
 // 监听状态变化
