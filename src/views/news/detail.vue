@@ -70,6 +70,7 @@ defineOptions({
         return Promise.all([
             newsStore.getDetail(id as string, api),
             productStore.getRecommend(api),
+            newsStore.getRelatedRecom(api),
             newsStore.getRecommend(api),
             commentStore.getComment({ type: 'news', id: id as string, page: 1 }, api),
         ])
@@ -80,7 +81,7 @@ emitter.emit('setMenuActive', 'news')
 
 const id = $(useRouteQuery<string>('id'))
 
-const newsStore = useFaqsStore()
+const newsStore = useNewsStore()
 const { detail } = storeToRefs(newsStore)
 
 const newsDetail = computed(() => detail.value[id] || {})

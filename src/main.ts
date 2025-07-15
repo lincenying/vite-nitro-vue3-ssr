@@ -40,6 +40,7 @@ import router from './router'
 //                  不见满街漂亮妹，哪个归得程序员？
 import 'default-passive-events'
 import '@/polyfill/toFixed'
+
 import 'uno.css'
 import './assets/icon-font/icon-font.css'
 import './assets/scss/global/animate.min.css'
