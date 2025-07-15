@@ -64,7 +64,10 @@ async function handleLogin() {
     }
     toggleLoading(true)
     await login(config)
-    window.location.href = '/'
+    setTimeout(() => {
+        toggleLoading(false)
+        window.location.href = '/'
+    }, 500)
     // onLogin(token)
 }
 </script>

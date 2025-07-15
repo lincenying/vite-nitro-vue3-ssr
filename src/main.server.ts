@@ -43,7 +43,7 @@ export default async function render(url: string, template: string, context: { r
     setupPinia(app).use(head).use(router)
 
     console.log('%c[url] >> ', 'color: red', url)
-    router.push(url)
+    await router.push(url)
     await router.isReady()
     console.log('server router ready')
 

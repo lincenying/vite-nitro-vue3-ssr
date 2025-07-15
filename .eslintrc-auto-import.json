@@ -198,7 +198,6 @@
     "useAsyncQueue": true,
     "useAsyncState": true,
     "useAttrs": true,
-    "useAutoRefresh": true,
     "useBase64": true,
     "useBattery": true,
     "useBluetooth": true,
