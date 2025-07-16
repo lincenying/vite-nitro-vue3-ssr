@@ -1,11 +1,10 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { CusRouteComponent } from './types/global.types'
 import { basename } from 'node:path'
-import { parseCookies } from '@lincy/utils'
 
 import { createHead, renderSSRHead } from '@unhead/vue/server'
 import { ID_INJECTION_KEY, ZINDEX_INJECTION_KEY } from 'element-plus'
-import { createEvent, sendRedirect } from 'h3'
+import { createEvent, parseCookies, sendRedirect } from 'h3'
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
@@ -21,6 +20,7 @@ export default async function render(url: string, template: string, context: { r
         return ''
     }
     const H3Event = createEvent(context?.req, context?.res)
+    const cookies = parseCookies(H3Event)
 
     const app = createSSRApp(App)
     app.provide(ZINDEX_INJECTION_KEY, { current: 0 })
@@ -28,8 +28,8 @@ export default async function render(url: string, template: string, context: { r
         prefix: Math.floor(Math.random() * 10000),
         current: 0,
     })
+
     const head = createHead()
-    const cookies = parseCookies(context?.req?.headers?.cookie || '')
 
     if (cookies.token && url.includes('/login')) {
         return sendRedirect(H3Event, '/')
@@ -38,7 +38,7 @@ export default async function render(url: string, template: string, context: { r
         return sendRedirect(H3Event, '/login')
     }
 
-    const api = useApi(context?.req?.headers?.cookie, H3Event)
+    const api = useApi(cookies, H3Event)
 
     setupPinia(app).use(head).use(router)
 
@@ -60,7 +60,7 @@ export default async function render(url: string, template: string, context: { r
     globalStore.setCookies(cookies)
     await productStore.getCategory(api)
 
-    console.log(matchedComponents)
+    console.log('%c[matchedComponents] >> ', 'color: red', matchedComponents.map(item => item.name))
 
     try {
         await Promise.all(

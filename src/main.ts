@@ -1,6 +1,7 @@
 import type { CusRouteComponent } from './types/global.types'
 
 import { createHead } from '@unhead/vue/client'
+import ls from 'store2'
 import { createApp } from 'vue'
 
 import App from '@/App.vue'
@@ -38,6 +39,7 @@ import router from './router'
 //                  奔驰宝马贵者趣，公交自行程序员。
 //                  别人笑我忒疯癫，我笑自己命太贱；
 //                  不见满街漂亮妹，哪个归得程序员？
+
 import 'default-passive-events'
 import '@/polyfill/toFixed'
 
@@ -57,6 +59,14 @@ setupPinia(app).use(router).use(globalPlugin)
 
 router.isReady().then(() => {
     router.beforeResolve(async (to, from) => {
+        const token = ls.get('token')
+        if (!token && to.path !== '/login') {
+            return { path: '/login' }
+        }
+        if (token && to.path === '/login') {
+            return { path: '/' }
+        }
+
         let diffed = false
         const activated = to.matched.filter((c, i) => {
             return diffed || (diffed = from.matched[i] !== c) || from.path !== to.path
