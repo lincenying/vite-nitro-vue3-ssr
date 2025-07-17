@@ -76,6 +76,7 @@
 
 <script setup lang="ts">
 import type { ElAffixType } from '~/types/global.types'
+import type { ProductCategory } from '~/types/pinia.types'
 import topBannerImg from '@/assets/images/home/page-banner.jpg'
 import { appName } from '~/constants'
 
@@ -117,6 +118,12 @@ const payload = computed(() => {
         page,
     }
 })
+
+const { data } = await useAsyncData('productLists', () => {
+    return $api.get<ProductCategory[]>('/home/category')
+})
+
+console.log(data.value)
 
 watch(() => [category, tag], () => {
     page = 1

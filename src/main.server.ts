@@ -8,6 +8,7 @@ import { createEvent, parseCookies, sendRedirect } from 'h3'
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
+import { resetSSRInstanceProperties } from './composables/asyncData'
 import { useApi } from './composables/fetch'
 import router from './router'
 
@@ -29,6 +30,8 @@ export default async function render(url: string, template: string, context: { r
         current: 0,
     })
 
+    resetSSRInstanceProperties(app)
+
     const head = createHead()
 
     if (cookies.token && url.includes('/login')) {
@@ -48,7 +51,7 @@ export default async function render(url: string, template: string, context: { r
     console.log('server router ready')
 
     if (router.currentRoute.value.matched.length === 0) {
-        // context.throw(404, "Not Found");
+        return '404 Not Found'
     }
 
     const matchedComponents = router.currentRoute.value.matched.flatMap((record) => {
@@ -83,10 +86,13 @@ export default async function render(url: string, template: string, context: { r
 
     const ctx: { modules?: any } = {}
     let content = await renderToString(app, ctx)
+
     const preloadLinks = renderPreloadLinks(ctx.modules, {})
     const { headTags } = await renderSSRHead(head)
 
-    content += `<script>window.__INITIAL_STATE__ = ${replaceHtmlTag(JSON.stringify(piniaInit.state.value))}</script>`
+    content += `<script>window.__initialState__ = ${replaceHtmlTag(JSON.stringify(app.config.globalProperties.initialState))}</script>`
+    content += `<script>window.__globalState__ = ${replaceHtmlTag(JSON.stringify(app.config.globalProperties.globalState))}</script>`
+    content += `<script>window.__piniaState__ = ${replaceHtmlTag(JSON.stringify(piniaInit.state.value))}</script>`
 
     const html = template
         .replace(`<!--preload-links-->`, preloadLinks)

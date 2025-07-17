@@ -7,7 +7,7 @@ import { createApp } from 'vue'
 import App from '@/App.vue'
 
 import globalPlugin from '@/plugin/global'
-import router from './router'
+import { getContext, setClientInstanceProperties } from './composables/asyncData'
 
 //                            _ooOoo_
 //                           o8888888o
@@ -40,9 +40,10 @@ import router from './router'
 //                  别人笑我忒疯癫，我笑自己命太贱；
 //                  不见满街漂亮妹，哪个归得程序员？
 
+import router from './router'
 import 'default-passive-events'
-import '@/polyfill/toFixed'
 
+import '@/polyfill/toFixed'
 import 'uno.css'
 import './assets/icon-font/icon-font.css'
 import './assets/scss/global/animate.min.css'
@@ -56,6 +57,10 @@ const head = createHead()
 const app = createApp(App)
 
 setupPinia(app).use(router).use(globalPlugin)
+
+const context = getContext()
+
+setClientInstanceProperties(app, context)
 
 router.isReady().then(() => {
     router.beforeResolve(async (to, from) => {
@@ -94,7 +99,3 @@ router.isReady().then(() => {
     app.use(head).mount('#app')
     console.log('client router ready')
 })
-
-if (window.__INITIAL_STATE__) {
-    piniaInit.state.value = window.__INITIAL_STATE__
-}
