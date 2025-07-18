@@ -41,6 +41,8 @@ export default defineConfig(({ isSsrBuild, mode }) => {
             alias: {
                 '~': path.join(__dirname, './src'),
                 '@': path.join(__dirname, './src'),
+                '~server': path.join(__dirname, './server'),
+                '@server': path.join(__dirname, './server'),
             },
         },
         ssr: {

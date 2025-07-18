@@ -23,6 +23,13 @@ export default (isSsrBuild?: boolean): PluginOption[] => {
         },
         entryServer: `${__dirname}/src/main.server.ts`,
     }, {
+        alias: {
+            '~': path.join(__dirname, './src'),
+            '@': path.join(__dirname, './src'),
+            '~server': path.join(__dirname, './server'),
+            '@server': path.join(__dirname, './server'),
+        },
+        // 服务器端渲染的入口文件
         srcDir: 'server',
         serveStatic: true,
         output: {

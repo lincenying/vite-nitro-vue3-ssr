@@ -12,7 +12,9 @@
     "moduleResolution": "bundler",
     "paths": {
       "~/*": ["./src/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "~server/*": ["./server/*"],
+      "@server/*": ["./server/*"]
     },
     "allowImportingTsExtensions": true,
 
