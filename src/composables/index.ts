@@ -108,7 +108,6 @@ export function scrollToNav(navigation: Ref<HTMLElement | undefined>, adjust: nu
         top += window.scrollY + adjust
     }
     // 平滑滚动到计算出的位置
-    console.log(top)
     window.scrollTo({ top: top || 0, behavior: 'smooth' })
 }
 

@@ -3,14 +3,12 @@ import type { CusRouteComponent } from './types/global.types'
 import { basename } from 'node:path'
 
 import { createHead, renderSSRHead } from '@unhead/vue/server'
-import { ID_INJECTION_KEY, ZINDEX_INJECTION_KEY } from 'element-plus'
 import { createEvent, parseCookies, sendRedirect } from 'h3'
-import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import App from './App.vue'
+import { createApp } from './app'
 import { resetSSRInstanceProperties } from './composables/asyncData'
+
 import { useApi } from './composables/fetch'
-import router from './router'
 
 function replaceHtmlTag(html: string): string {
     return html.replace(/<script(.*?)>/gi, '&lt;script$1&gt;').replace(/<\/script>/g, '&lt;/script&gt;')
@@ -23,16 +21,12 @@ export default async function render(url: string, template: string, context: { r
     const H3Event = createEvent(context?.req, context?.res)
     const cookies = parseCookies(H3Event)
 
-    const app = createSSRApp(App)
-    app.provide(ZINDEX_INJECTION_KEY, { current: 0 })
-    app.provide(ID_INJECTION_KEY, {
-        prefix: Math.floor(Math.random() * 10000),
-        current: 0,
-    })
+    const { app, router, store } = createApp()
 
     resetSSRInstanceProperties(app)
 
     const head = createHead()
+    app.use(head)
 
     if (cookies.token && url.includes('/login')) {
         return sendRedirect(H3Event, '/')
@@ -42,8 +36,6 @@ export default async function render(url: string, template: string, context: { r
     }
 
     const api = useApi(cookies, H3Event)
-
-    setupPinia(app).use(head).use(router)
 
     console.log('%c[url] >> ', 'color: red', url)
     await router.push(url)
@@ -58,8 +50,8 @@ export default async function render(url: string, template: string, context: { r
         return Object.values(record.components as Record<string, CusRouteComponent>)
     })
 
-    const globalStore = useGlobalStore(piniaInit)
-    const productStore = useProductStore(piniaInit)
+    const globalStore = useGlobalStore(store)
+    const productStore = useProductStore(store)
     globalStore.setCookies(cookies)
     await productStore.getCategory(api)
 
@@ -70,7 +62,7 @@ export default async function render(url: string, template: string, context: { r
             matchedComponents.map((component) => {
                 if (component.asyncData) {
                     return component.asyncData({
-                        store: piniaInit,
+                        store,
                         route: router.currentRoute.value,
                         req: context.req,
                         api,
@@ -84,10 +76,11 @@ export default async function render(url: string, template: string, context: { r
         console.log(error)
     }
 
-    const ctx: { modules?: any } = {}
+    const ctx: { modules?: any, teleports?: any } = {}
     let content = await renderToString(app, ctx)
 
     const preloadLinks = renderPreloadLinks(ctx.modules, {})
+    const teleports = renderTeleports(ctx.teleports)
     const { headTags } = await renderSSRHead(head)
 
     content += `<script>window.__initialState__ = ${replaceHtmlTag(JSON.stringify(app.config.globalProperties.initialState))}</script>`
@@ -98,6 +91,7 @@ export default async function render(url: string, template: string, context: { r
         .replace(`<!--preload-links-->`, preloadLinks)
         .replace('<!--app-html-->', content)
         .replace('<!--head-tags-->', headTags)
+        .replace(/(\n|\r\n)\s*<!--app-teleports-->/, teleports)
 
     return html
 }
@@ -152,4 +146,15 @@ function renderPreloadLink(file: string) {
     // TODO
         return ''
     }
+}
+
+function renderTeleports(teleports) {
+    if (!teleports)
+        return ''
+    return Object.entries(teleports).reduce((all, [key, value]) => {
+        if (key.startsWith('#el-popper-container-')) {
+            return `${all}<div id="${key.slice(1)}">${value}</div>`
+        }
+        return all
+    }, teleports.body || '')
 }

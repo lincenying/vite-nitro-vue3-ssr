@@ -2,11 +2,10 @@ import type { CusRouteComponent } from './types/global.types'
 
 import { createHead } from '@unhead/vue/client'
 import ls from 'store2'
-import { createApp } from 'vue'
-
-import App from '@/App.vue'
 
 import globalPlugin from '@/plugin/global'
+
+import { createApp } from './app'
 import { getContext, setClientInstanceProperties } from './composables/asyncData'
 
 //                            _ooOoo_
@@ -40,7 +39,6 @@ import { getContext, setClientInstanceProperties } from './composables/asyncData
 //                  别人笑我忒疯癫，我笑自己命太贱；
 //                  不见满街漂亮妹，哪个归得程序员？
 
-import router from './router'
 import 'default-passive-events'
 
 import '@/polyfill/toFixed'
@@ -52,11 +50,9 @@ import './assets/scss/style.scss'
 
 console.log(`VITE_APP_ENV: ${import.meta.env.VITE_APP_ENV}`)
 
+const { app, router, store } = createApp()
+
 const head = createHead()
-
-const app = createApp(App)
-
-setupPinia(app).use(router).use(globalPlugin)
 
 const context = getContext()
 
@@ -86,7 +82,7 @@ router.isReady().then(() => {
                 const routeComponent = c.components?.default as CusRouteComponent
                 if (routeComponent.asyncData) {
                     return routeComponent.asyncData({
-                        store: piniaInit,
+                        store,
                         route: to,
                         api: $api,
                     })
@@ -96,6 +92,7 @@ router.isReady().then(() => {
             }),
         )
     })
-    app.use(head).mount('#app')
+
+    app.use(head).use(globalPlugin).mount('#app')
     console.log('client router ready')
 })

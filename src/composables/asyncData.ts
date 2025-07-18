@@ -11,14 +11,14 @@ interface AsyncDataOptions {
     server?: boolean
 }
 
-interface IAsyncData<DataT, ErrorT> {
+interface AsyncDataType<DataT, ErrorT> {
     data: Ref<DataT | null>
     error: Ref<ErrorT | null>
     loading: Ref<boolean>
     refresh: () => Promise<void>
 }
 
-type AsyncData<T, E> = IAsyncData<T, E> & Promise<IAsyncData<T, E>>
+type AsyncData<T, E> = AsyncDataType<T, E> & Promise<AsyncDataType<T, E>>
 
 export function getAppInstance(): AppInstance {
     let instance: AppInstance = null
@@ -91,7 +91,7 @@ export function useAsyncData<DataT, ErrorT = unknown>(
     options: AsyncDataOptions = { server: true },
 ): AsyncData<DataT, ErrorT> {
     // 初始化异步数据对象
-    const asyncData: IAsyncData<DataT, ErrorT> = {
+    const asyncData: AsyncDataType<DataT, ErrorT> = {
         data: ref(null),
         error: ref(null),
         loading: ref(false),
@@ -153,9 +153,9 @@ export function useAsyncData<DataT, ErrorT = unknown>(
 
     // 在服务端且配置允许的情况下执行数据获取
     if (isServer && fetchOnServer) {
-        const promise = initialFetch()
+        const p = initialFetch()
         if (instance) {
-            onServerPrefetch(() => promise)
+            onServerPrefetch(() => p)
         }
     }
 
