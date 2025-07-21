@@ -25,6 +25,7 @@ declare module 'vue' {
     ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
     ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
     EmptyComponents: typeof import('./components/empty-components.vue')['default']
+    GlobalClientOnly: typeof import('./components/global/client-only.vue')['default']
     GlobalDialog: typeof import('./components/global/dialog.vue')['default']
     GlobalDigital: typeof import('./components/global/digital.tsx')['default']
     GlobalFooter: typeof import('./components/global/footer.vue')['default']
@@ -37,6 +38,7 @@ declare module 'vue' {
     OtherLoading: typeof import('./components/other/loading.vue')['default']
     OtherRelatedRecom: typeof import('./components/other/related-recom.vue')['default']
     OtherTopBanner: typeof import('./components/other/top-banner.vue')['default']
+    PdfPreview: typeof import('./components/pdf/preview.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

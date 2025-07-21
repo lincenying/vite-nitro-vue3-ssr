@@ -17,6 +17,8 @@ export interface AsyncDataConfig {
     req?: any
 }
 
+export type ApiData = ReadableStream | XMLHttpRequestBodyInit | Record<string, any>
+
 export type CusRouteComponent = RouteComponent & { asyncData: (payload: AsyncDataConfig) => Promise<any> }
 
 /**
