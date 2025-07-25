@@ -26,6 +26,7 @@
     "better-sqlite3": "^12.2.0",
     "default-passive-events": "^4.0.0",
     "element-plus": "^2.10.4",
+    "h3": "1.15.3",
     "md-editor-v3": "^5.8.2",
     "ofetch": "^1.4.1",
     "pinia": "^3.0.3",
