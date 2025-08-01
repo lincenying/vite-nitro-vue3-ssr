@@ -9,7 +9,7 @@
                 <global-client-only>
                     <h5 text-16px hex-202935 mb-16px>Markdown编辑器</h5>
                     <div h-700px>
-                        <MdEditor v-model="text" @on-upload-img="onUploadImg" />
+                        <MdEditor v-model="text" :toolbars-exclude="['github']" @on-upload-img="onUploadImg" />
                     </div>
                     <h5 text-16px hex-202935 mt-24px mb-16px>Markdown内容预览</h5>
                     <div flex="~ justify-between" bg-hex-fff rounded="10px">

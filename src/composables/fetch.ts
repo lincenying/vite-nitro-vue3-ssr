@@ -15,13 +15,15 @@ import { normalizeCookiePath } from '~/utils'
  * ```
  */
 export const useApi: (cookies?: Record<string, string | number | boolean>, H3Event?: H3Event) => ApiType = (cookies, H3Event) => {
-    const isSSR = !!import.meta.env.SSR
+    const isSSR = import.meta.env.SSR
 
     const apiFetch = ofetch.create({
         baseURL: `${import.meta.env.VITE_APP_API}`,
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
-            'Cookie': (cookies && objToCookies(cookies)) || '',
+            ...(isSSR ? {
+                Cookie: (cookies && objToCookies(cookies)) || '',
+            } : {}),
         },
     })
 
