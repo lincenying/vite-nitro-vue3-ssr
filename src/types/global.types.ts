@@ -19,7 +19,7 @@ export interface AsyncDataConfig {
 
 export type ApiData = ReadableStream | XMLHttpRequestBodyInit | Record<string, any>
 
-export type CusRouteComponent = RouteComponent & { asyncData: (payload: AsyncDataConfig) => Promise<any> }
+export type CusRouteComponent = RouteComponent & { asyncData: (payload?: AsyncDataConfig) => Promise<any> }
 
 /**
  * 请求参数合集

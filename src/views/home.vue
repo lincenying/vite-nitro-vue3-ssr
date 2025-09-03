@@ -76,14 +76,13 @@
 
 <script setup lang="ts">
 import type { ElAffixType } from '~/types/global.types'
-import type { ProductCategory } from '~/types/pinia.types'
 import topBannerImg from '@/assets/images/home/page-banner.jpg'
 import { appName } from '~/constants'
 
 defineOptions({
     name: 'RouterHome',
     asyncData(ctx) {
-        const { store, route, api } = ctx
+        const { store, route, api } = ctx!
         const {
             params: { category, tag },
         } = route
@@ -121,13 +120,9 @@ const payload = computed(() => {
     }
 })
 
-const { data } = await useAsyncData('productLists', () => {
-    return $api.get<ProductCategory[]>('/home/category')
-})
-
-console.log('%c[data.value] >> ', 'color: red')
-console.log(data.value)
-console.log('%c<< [data.value]', 'color: red')
+// await useAsyncData('productLists', () => {
+//     return $api.get<ProductCategory[]>('/home/category')
+// })
 
 watch(() => [category, tag], () => {
     page = 1

@@ -16,9 +16,10 @@ import { normalizeCookiePath } from '~/utils'
  */
 export const useApi: (cookies?: Record<string, string | number | boolean>, H3Event?: H3Event) => ApiType = (cookies, H3Event) => {
     const isSSR = import.meta.env.SSR
+    const baseURL = isSSR ? `${import.meta.env.VITE_APP_API_SSR}` : `${import.meta.env.VITE_APP_API}`
 
     const apiFetch = ofetch.create({
-        baseURL: `${import.meta.env.VITE_APP_API}`,
+        baseURL,
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
             ...(isSSR ? {
@@ -41,7 +42,7 @@ export const useApi: (cookies?: Record<string, string | number | boolean>, H3Eve
             return this.RESTful(url, 'delete', data, options)
         },
         async RESTful(url, method = 'get', data, options?: FetchOptions) {
-            console.log('%c[request-url] >> ', 'color: red', import.meta.env.VITE_APP_API + url, data)
+            console.log('%c[request-url] >> ', 'color: red', baseURL + url, data)
             const response = await apiFetch(url, {
                 method,
                 query: method === 'get' ? data : undefined,
