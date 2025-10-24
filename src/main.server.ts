@@ -9,12 +9,17 @@ import { createApp } from './app'
 import { resetSSRInstanceProperties } from './composables/asyncData'
 
 import { useApi } from './composables/fetch'
+import { needSSR } from './config'
 
 function replaceHtmlTag(html: string): string {
     return html.replace(/<script(.*?)>/gi, '&lt;script$1&gt;').replace(/<\/script>/g, '&lt;/script&gt;')
 }
 
 export default async function render(url: string, template: string, context: { req: IncomingMessage, res: ServerResponse }) {
+    if (!needSSR) {
+        return template.replace('<!--app-html-->', '').replace('<!--head-tags-->', '').replace('<!--app-teleports-->', '')
+    }
+
     if (url.startsWith('/.well-known') || url.startsWith('/sm/')) {
         return ''
     }

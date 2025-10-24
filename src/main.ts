@@ -1,7 +1,4 @@
-import type { CusRouteComponent } from './types/global.types'
-
 import { createHead } from '@unhead/vue/client'
-import ls from 'store2'
 
 import globalPlugin from '@/plugin/global'
 
@@ -41,6 +38,8 @@ import { getContext, setClientInstanceProperties } from './composables/asyncData
 
 // import 'default-passive-events'
 
+import { needSSR } from './config'
+import { routerBeforeResolve } from './router'
 import '@/polyfill/toFixed'
 import 'uno.css'
 import 'md-editor-v3/lib/style.css'
@@ -60,39 +59,9 @@ const context = getContext()
 setClientInstanceProperties(app, context)
 
 router.isReady().then(() => {
-    router.beforeResolve(async (to, from) => {
-        const token = ls.get('token')
-        if (!token && to.path !== '/login') {
-            return { path: '/login' }
-        }
-        if (token && to.path === '/login') {
-            return { path: '/' }
-        }
-
-        let diffed = false
-        const activated = to.matched.filter((c, i) => {
-            return diffed || (diffed = from.matched[i] !== c) || from.path !== to.path
-        })
-
-        if (!activated.length && to.fullPath === from.fullPath) {
-            return false
-        }
-
-        await Promise.all(
-            activated.map((c) => {
-                const routeComponent = c.components?.default as CusRouteComponent
-                if (routeComponent.asyncData) {
-                    return routeComponent.asyncData({
-                        store,
-                        route: to,
-                        api: $api,
-                    })
-                }
-
-                return true
-            }),
-        )
-    })
+    if (needSSR) {
+        routerBeforeResolve(router, store)
+    }
 
     app.use(head).use(globalPlugin).mount('#app')
     console.log('client router ready')

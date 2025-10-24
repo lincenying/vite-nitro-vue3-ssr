@@ -63,9 +63,9 @@ export function deserializeState<T extends Record<string, unknown>>(state: strin
 }
 
 export function getContext() {
-    const initialState = deserializeState(window.__initialState__)
-    const globalState = deserializeState(window.__globalState__)
-    const piniaState = deserializeState(window.__piniaState__)
+    const initialState = deserializeState(window.__initialState__ || '{}')
+    const globalState = deserializeState(window.__globalState__ || '{}')
+    const piniaState = deserializeState(window.__piniaState__ || '{}')
 
     const context: ConextType = {
         initialState,
@@ -101,9 +101,6 @@ export function useAsyncData<DataT, ErrorT = unknown>(
     // 获取应用实例和初始状态
     const instance = getAppInstance()!
     const initialState = instance.config.globalProperties.initialState
-
-    // 判断当前环境是否为服务端
-    const isServer = import.meta.env.SSR
 
     // 如果初始状态中存在对应key的数据，则赋值给asyncData.data
     if (key in initialState) {
@@ -152,7 +149,7 @@ export function useAsyncData<DataT, ErrorT = unknown>(
     const fetchOnServer = options.server !== false
 
     // 在服务端且配置允许的情况下执行数据获取
-    if (isServer && fetchOnServer) {
+    if (isSSR && fetchOnServer) {
         const p = initialFetch()
         if (instance) {
             onServerPrefetch(() => p)
@@ -160,7 +157,7 @@ export function useAsyncData<DataT, ErrorT = unknown>(
     }
 
     // 在客户端且配置不允许服务端获取的情况下执行数据获取
-    if (!isServer && !fetchOnServer) {
+    if (!isSSR && !fetchOnServer) {
         initialFetch()
     }
 

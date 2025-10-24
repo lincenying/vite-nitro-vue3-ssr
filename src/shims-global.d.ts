@@ -87,6 +87,7 @@ declare interface ImportMeta {
         VITE_APP_ENV: 'development' | 'production' | 'pre-release' | 'test'
         VITE_APP_API: string
         VITE_APP_API_SSR: string
+        VITE_APP_SSR: string
         BASE_URL: string
         SSR: boolean
     }

@@ -1,6 +1,9 @@
 import type { AnyFn } from '@vueuse/core'
 import ls from 'store2'
 
+/** 是否服务端渲染阶段 */
+export const isSSR = !!import.meta.env.SSR
+
 export function useGlobal() {
     const ins = getCurrentInstance()!
 
@@ -58,10 +61,10 @@ export function useLockFn(fn: AnyFn, autoUnlock: boolean | 'auto' = 'auto') {
  * 该函数在组件挂载时恢复滚动位置，并在路由离开时保存滚动位置。
  */
 export function useSaveScroll() {
-    const route = useRoute()
-
-    if (import.meta.env.SSR)
+    if (isSSR)
         return
+
+    const route = useRoute()
 
     onMounted(() => {
         // 从本地存储中获取当前路由的滚动位置，如果没有则默认为0
@@ -97,7 +100,7 @@ export function useSaveScroll() {
  * @returns {void}
  */
 export function scrollToNav(navigation: Ref<HTMLElement | undefined>, adjust: number = 0): void {
-    if (import.meta.env.SSR)
+    if (isSSR)
         return
 
     // 获取导航元素相对于视口的顶部位置
@@ -121,7 +124,7 @@ export function scrollToNav(navigation: Ref<HTMLElement | undefined>, adjust: nu
  * @returns {void}
  */
 export function scrollToComment(commentBox: Ref<HTMLElement | undefined>, adjust: number = 0): void {
-    if (import.meta.env.SSR)
+    if (isSSR)
         return
 
     // 获取导航元素相对于视口的顶部位置

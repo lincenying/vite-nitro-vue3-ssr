@@ -32,7 +32,7 @@ useHead({
 })
 
 const VPdfViewerComp = defineAsyncComponent(async () => {
-    if (import.meta.env.SSR)
+    if (isSSR)
         return Promise.resolve(h('div', 'Loading...'))
     const module = await import('@/components/pdf/preview.vue')
     return module.default
