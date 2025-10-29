@@ -66,6 +66,26 @@ pnpm lint:css # css 检测并修复
 
 ```
 
+### docker
+
+```bash
+# 第一次执行时, 如果node镜像拉不下来, 可以执行以下命令:
+docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/node:22-alpine3.22
+docker tag swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/node:22-alpine3.22 node:22-alpine
+# 构建镜像
+docker build -t vite-nitro-vue3-ssr:1.25.1029 -f ./Dockerfile .
+# 运行镜像
+docker run -d -p 5273:5273 --add-host=host.docker.internal:host-gateway --name vite-nitro-vue3-ssr vite-nitro-vue3-ssr:1.25.1029
+# 进入镜像
+docker exec -it vite-nitro-vue3-ssr /bin/sh
+# 停止容器
+docker stop vite-nitro-vue3-ssr
+# 删除容器
+docker rm vite-nitro-vue3-ssr
+# 删除镜像
+docker rmi vite-nitro-vue3-ssr:1.25.1029
+```
+
 ## License
 
 [MIT]

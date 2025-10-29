@@ -407,6 +407,7 @@ declare module 'vue' {
     readonly $api: UnwrapRef<typeof import('./composables/fetch')['$api']>
     readonly Delete: UnwrapRef<typeof import('./composables/alova')['Delete']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
     readonly Get: UnwrapRef<typeof import('./composables/alova')['Get']>
     readonly Post: UnwrapRef<typeof import('./composables/alova')['Post']>
     readonly Put: UnwrapRef<typeof import('./composables/alova')['Put']>
@@ -544,8 +545,6 @@ declare module 'vue' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly routerKey: UnwrapRef<typeof import('./composables/provide')['routerKey']>
-    readonly scrollToComment: UnwrapRef<typeof import('./composables/index')['scrollToComment']>
-    readonly scrollToNav: UnwrapRef<typeof import('./composables/index')['scrollToNav']>
     readonly setClientInstanceProperties: UnwrapRef<typeof import('./composables/asyncData')['setClientInstanceProperties']>
     readonly setupPinia: UnwrapRef<typeof import('./stores/index')['setupPinia']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>

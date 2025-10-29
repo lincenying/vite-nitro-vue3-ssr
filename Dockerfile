@@ -7,8 +7,8 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN npm config set registry https://registry.npmmirror.com && npm install -g pnpm && mkdir -p $PNPM_HOME
 
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --ignore-scripts --store-dir $PNPM_HOME
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile --store-dir $PNPM_HOME
 COPY . .
 RUN pnpm run build
 
@@ -29,14 +29,14 @@ CMD ["node", "./.output/server/index.mjs"]
 # docker pull swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/node:22-alpine3.22
 # docker tag swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/node:22-alpine3.22 node:22-alpine
 # 构建镜像
-# docker build -t vite-nitro-vue-ssr:1.0.0623 -f ./Dockerfile .
+# docker build -t vite-nitro-vue3-ssr:1.25.1029 -f ./Dockerfile .
 # 运行镜像
-# docker run -d -p 5273:5273 --add-host=host.docker.internal:host-gateway --name vite-nitro-vue-ssr vite-nitro-vue-ssr:1.0.0623
+# docker run -d -p 5273:5273 --add-host=host.docker.internal:host-gateway --name vite-nitro-vue3-ssr vite-nitro-vue3-ssr:1.25.1029
 # 进入镜像
-# docker exec -it vite-nitro-vue-ssr /bin/sh
+# docker exec -it vite-nitro-vue3-ssr /bin/sh
 # 停止容器
-# docker stop vite-nitro-vue-ssr
+# docker stop vite-nitro-vue3-ssr
 # 删除容器
-# docker rm vite-nitro-vue-ssr
+# docker rm vite-nitro-vue3-ssr
 # 删除镜像
-# docker rmi vite-nitro-vue-ssr
+# docker rmi vite-nitro-vue3-ssr:1.25.1029
