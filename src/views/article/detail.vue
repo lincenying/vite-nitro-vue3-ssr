@@ -98,6 +98,7 @@ const navigation = ref<HTMLElement>()
 const loading = ref(false)
 
 const commentStore = useCommentStore()
+
 async function initFunc() {
     loading.value = true
     await Promise.all([

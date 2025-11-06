@@ -76,6 +76,7 @@
 
 <script setup lang="ts">
 import type { ElAffixType } from '~/types/global.types'
+import type { ProductCategory } from '~/types/pinia.types'
 import topBannerImg from '@/assets/images/home/page-banner.jpg'
 import { appName } from '~/constants'
 
@@ -120,9 +121,13 @@ const payload = computed(() => {
     }
 })
 
-// await useAsyncData('productLists', () => {
-//     return $api.get<ProductCategory[]>('/home/category')
-// })
+const { data } = await useAsyncData('productLists', () => {
+    return $api.get<ProductCategory[]>('/home/category')
+})
+
+console.log('%c[data.value] >> ', 'color: red')
+console.log(data.value)
+console.log('%c<< [data.value]', 'color: red')
 
 watch(() => [category, tag], () => {
     page = 1
@@ -149,6 +154,10 @@ emitter.on('change-category', (newCategoryId) => {
     console.log('%c[newCategoryId] >> ', 'color: red', newCategoryId)
 })
 
+const unsubscribe = changeCategory.on((newCategoryId) => {
+    console.log('%c[newCategoryId] >> ', 'color: red', newCategoryId)
+})
+
 useHead({
     title: `产品展示 - ${appName}`,
 })
@@ -157,6 +166,7 @@ useSaveScroll()
 
 onUnmounted(() => {
     emitter.off('change-category')
+    unsubscribe()
 })
 
 onMounted(() => {

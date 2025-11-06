@@ -4,6 +4,7 @@ import { isFormData, objToCookies } from '@lincy/utils'
 import { appendResponseHeader } from 'h3'
 import { ofetch } from 'ofetch'
 import { normalizeCookiePath } from '~/utils'
+import { baseURL } from '.'
 
 /**
  * ofetch Api 封装
@@ -15,8 +16,6 @@ import { normalizeCookiePath } from '~/utils'
  * ```
  */
 export const useApi: (cookies?: Record<string, string | number | boolean>, H3Event?: H3Event) => ApiType = (cookies, H3Event) => {
-    const baseURL = isSSR ? `${import.meta.env.VITE_APP_API_SSR}` : `${import.meta.env.VITE_APP_API}`
-
     const apiFetch = ofetch.create({
         baseURL,
         headers: {

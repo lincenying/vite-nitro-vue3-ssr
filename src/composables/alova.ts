@@ -2,9 +2,10 @@ import { createAlova } from 'alova'
 import { useFetcher, useForm, usePagination, useRequest, useSerialRequest, useSerialWatcher, useWatcher } from 'alova/client'
 import adapterFetch from 'alova/fetch'
 import VueHook from 'alova/vue'
+import { baseURL } from '.'
 
 const alovaInstance = createAlova({
-    baseURL: import.meta.env.VITE_APP_API,
+    baseURL,
     statesHook: VueHook,
     requestAdapter: adapterFetch(),
     // 函数参数为一个method实例，包含如url、params、data、headers等请求数据
