@@ -53,7 +53,9 @@ pnpm build
 ### 生产环境预览
 
 ```bash
-pnpm start
+pnpm preview
+
+# VITE_APP_SSR_API 设置的端口需要和启动端口保持一致, 否则SSR端无法请求接口
 ```
 
 ### Lint 和修复文件
