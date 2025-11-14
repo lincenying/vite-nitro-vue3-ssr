@@ -1,4 +1,4 @@
-import type { AnyFn, MaybeRef } from '@vueuse/core'
+import type { AnyFn } from '@vueuse/core'
 import type ElAffix from 'element-plus/es/components/affix'
 import type ElScrollbar from 'element-plus/es/components/scrollbar'
 import type { Pinia } from 'pinia'
@@ -17,9 +17,7 @@ export interface AsyncDataConfig {
     req?: any
 }
 
-export type ApiData = ReadableStream | XMLHttpRequestBodyInit | Record<string, any>
-
-export type CusRouteComponent = RouteComponent & { asyncData: (payload?: AsyncDataConfig) => Promise<any> }
+export type CusRouteComponent = RouteComponent & { asyncData: (payload: AsyncDataConfig) => Promise<any> }
 
 /**
  * 请求参数合集

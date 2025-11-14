@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import nitro from '@analogjs/vite-plugin-nitro'
 import vue from '@vitejs/plugin-vue'
 
-import { needSSR } from './src/config'
+import { useSSR } from './src/config'
 
 export default (isSsrBuild?: boolean): PluginOption[] => {
     const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -18,15 +18,11 @@ export default (isSsrBuild?: boolean): PluginOption[] => {
         plugins.push(vue())
 
     plugins.push(nitro({
-        ssr: needSSR,
+        ssr: useSSR,
         static: false,
+        apiPrefix: 'api',
         prerender: {
             routes: [],
-        },
-        routeRules: {
-            '/': {
-                ssr: false,
-            },
         },
         entryServer: `${__dirname}/src/main.server.ts`,
     }, {
@@ -44,6 +40,9 @@ export default (isSsrBuild?: boolean): PluginOption[] => {
             publicDir: '.output/public',
         },
         routeRules: {
+            '/': {
+                ssr: useSSR,
+            },
             '/php/**': {
                 proxy: {
                     to: `${proxyDomain}/api/**`,

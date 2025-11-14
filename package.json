@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@lincy/async-validation": "^1.4.0",
-    "@lincy/utils": "^0.7.0",
+    "@lincy/utils": "^0.7.2",
     "@tato30/vue-pdf": "^1.11.5",
     "@unhead/vue": "^2.0.19",
     "@unocss/reset": "^66.5.6",

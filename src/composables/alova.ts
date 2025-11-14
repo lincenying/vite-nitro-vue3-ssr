@@ -2,7 +2,6 @@ import { createAlova } from 'alova'
 import { useFetcher, useForm, usePagination, useRequest, useSerialRequest, useSerialWatcher, useWatcher } from 'alova/client'
 import adapterFetch from 'alova/fetch'
 import VueHook from 'alova/vue'
-import { baseURL } from '.'
 
 const alovaInstance = createAlova({
     baseURL,

@@ -1,6 +1,6 @@
 import { toArray } from '@lincy/utils'
 import { type App, hasInjectionContext } from 'vue'
-import { needSSR } from '~/config'
+import { useSSR } from '~/config'
 
 type AppInstance = App | null
 
@@ -128,14 +128,14 @@ export function getContext() {
  *
  * @param key - 数据的唯一标识符。
  * @param handler - 返回一个Promise的数据获取处理函数。
- * @param options - 配置选项，默认为{ server: !!needSSR }。开启ssr时为true, 未开启是为false
+ * @param options - 配置选项，默认为{ server: !!useSSR }。开启ssr时为true, 未开启是为false
  *
  * @returns 返回一个AsyncData对象，包含数据、错误信息、加载状态和刷新方法。
  */
 export function useAsyncData<DataT, ErrorT = unknown>(
     key: string,
     handler: () => Promise<DataT>,
-    options: AsyncDataOptions = { server: !!needSSR },
+    options: AsyncDataOptions = { server: !!useSSR },
 ): AsyncData<DataT, ErrorT> {
     // 初始化异步数据对象
     const asyncData: AsyncDataType<DataT, ErrorT> = {

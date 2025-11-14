@@ -12,8 +12,8 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
       '@lincy/utils':
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^0.7.2
+        version: 0.7.2
       '@tato30/vue-pdf':
         specifier: ^1.11.5
         version: 1.11.5(vue@3.5.24(typescript@5.9.3))
@@ -894,8 +894,8 @@ packages:
   '@lincy/unocss-base-config@2.3.0':
     resolution: {integrity: sha512-Ntv2S4qdjzW7CR04fPBvxueqnf13Dx3DCA2Nj9xqVdhP5gRCDSgHh6OlWopw2+dcwHv7wgNGKTOLsmrk6skReQ==}
 
-  '@lincy/utils@0.7.0':
-    resolution: {integrity: sha512-MWHg3p/JJry7Jbglxzmn6o0NlOhoRrGFevsPZIxvmJOuExparLRRdXohnwS7WoJ9/PXefKzqImtqOuGjRIOSQg==}
+  '@lincy/utils@0.7.2':
+    resolution: {integrity: sha512-b6TzBBKRyIV24ktYl71w4re+M72PD811MuwSsEJbGbFO1PmGuXGI3i6aEsF7qlfsIaTYURdDnVuoZDUFVJpCzg==}
 
   '@mapbox/node-pre-gyp@2.0.0':
     resolution: {integrity: sha512-llMXd39jtP0HpQLVI37Bf1m2ADlEb35GYSh1SDSLsBhR+5iCxiNGlT31yqbNtVHygHAtMy6dWFERpU2JgufhPg==}
@@ -6678,7 +6678,7 @@ snapshots:
 
   '@lincy/async-validation@1.4.0':
     dependencies:
-      '@lincy/utils': 0.7.0
+      '@lincy/utils': 0.7.2
       async-validator: 4.2.5
 
   '@lincy/eslint-config@6.0.0(@vue/compiler-sfc@3.5.24)(eslint-plugin-format@1.0.2(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)':
@@ -6750,7 +6750,7 @@ snapshots:
       - supports-color
       - vite
 
-  '@lincy/utils@0.7.0': {}
+  '@lincy/utils@0.7.2': {}
 
   '@mapbox/node-pre-gyp@2.0.0':
     dependencies:

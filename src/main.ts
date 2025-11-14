@@ -38,7 +38,7 @@ import { getContext, setClientInstanceProperties } from './composables/asyncData
 
 // import 'default-passive-events'
 
-import { needSSR } from './config'
+import { useSSR } from './config'
 import { routerBeforeResolve } from './router'
 import '@/polyfill/toFixed'
 import 'uno.css'
@@ -59,7 +59,7 @@ const context = getContext()
 setClientInstanceProperties(app, context)
 
 router.isReady().then(() => {
-    if (needSSR) {
+    if (useSSR) {
         routerBeforeResolve(router, store)
     }
 

@@ -3,7 +3,7 @@ import type { Router, RouteRecordRaw } from 'vue-router'
 import type { CusRouteComponent } from '~/types/global.types'
 import ls from 'store2'
 import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router'
-import { needSSR } from '~/config'
+import { useSSR } from '~/config'
 
 const views = import.meta.glob('../views/**/*.vue')
 
@@ -28,11 +28,9 @@ const router = createRouter({
     routes,
 })
 
-if (!needSSR) {
+if (!useSSR) {
     routerBeforeResolve(router, piniaInit)
 }
-
-export default router
 
 export function routerBeforeResolve(router: Router, store: Pinia) {
     router.beforeResolve(async (to, from) => {
@@ -69,3 +67,5 @@ export function routerBeforeResolve(router: Router, store: Pinia) {
         )
     })
 }
+
+export default router

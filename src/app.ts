@@ -4,7 +4,7 @@ import { ID_INJECTION_KEY, ZINDEX_INJECTION_KEY } from 'element-plus'
 import { createApp as createPWAApp, createSSRApp } from 'vue'
 
 import Main from './App.vue'
-import { needSSR } from './config'
+import { useSSR } from './config'
 import router from './router'
 
 console.log(`当前环境: ${import.meta.env.VITE_APP_ENV}`)
@@ -14,7 +14,7 @@ console.log(`当前环境: ${import.meta.env.VITE_APP_ENV}`)
 export function createApp() {
     let app: App<Element>
 
-    if (needSSR) {
+    if (useSSR) {
         app = createSSRApp(Main)
     }
     else {
