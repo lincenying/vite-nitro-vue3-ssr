@@ -43,6 +43,7 @@ import type { CommentCategoryType } from '~/types/components.types'
 import type { ListType } from '~/types/global.types'
 import type { InitType } from '~/types/home.types'
 import { defaultList } from '~/constants'
+import { scrollToComment } from '~/utils'
 
 defineOptions({
     name: 'CommentLists',
