@@ -1,9 +1,8 @@
-import type { Pinia } from 'pinia'
 import type { Router, RouteRecordRaw } from 'vue-router'
+
 import type { CusRouteComponent } from '~/types/global.types'
 import ls from 'store2'
 import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router'
-import { useSSR } from '~/config'
 
 const views = import.meta.glob('../views/**/*.vue')
 
@@ -29,10 +28,10 @@ const router = createRouter({
 })
 
 if (!useSSR) {
-    routerBeforeResolve(router, piniaInit)
+    routerBeforeResolve(router)
 }
 
-export function routerBeforeResolve(router: Router, store: Pinia) {
+export function routerBeforeResolve(router: Router) {
     router.beforeResolve(async (to, from) => {
         const token = ls.get('token')
         if (!token && to.path !== '/login') {
@@ -56,7 +55,7 @@ export function routerBeforeResolve(router: Router, store: Pinia) {
                 const routeComponent = c.components?.default as CusRouteComponent
                 if (routeComponent.asyncData) {
                     return routeComponent.asyncData({
-                        store,
+                        store: piniaInit,
                         route: to,
                         api: $api,
                     })

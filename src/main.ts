@@ -43,6 +43,7 @@ import { routerBeforeResolve } from './router'
 import '@/polyfill/toFixed'
 import 'uno.css'
 import 'md-editor-v3/lib/style.css'
+import 'highlight.js/styles/atom-one-dark.css'
 import './assets/icon-font/icon-font.css'
 import './assets/scss/global/animate.min.css'
 import './assets/scss/global/global.scss'
@@ -50,7 +51,7 @@ import './assets/scss/style.scss'
 
 console.log(`VITE_APP_ENV: ${import.meta.env.VITE_APP_ENV}`)
 
-const { app, router, store } = createApp()
+const { app, router } = createApp()
 
 const head = createHead()
 
@@ -60,7 +61,7 @@ setClientInstanceProperties(app, context)
 
 router.isReady().then(() => {
     if (useSSR) {
-        routerBeforeResolve(router, store)
+        routerBeforeResolve(router)
     }
 
     app.use(head).use(globalPlugin).mount('#app')

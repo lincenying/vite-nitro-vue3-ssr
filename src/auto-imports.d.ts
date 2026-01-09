@@ -17,6 +17,8 @@ declare global {
   const Get: typeof import('./composables/alova').Get
   const Post: typeof import('./composables/alova').Post
   const Put: typeof import('./composables/alova').Put
+  const _useAsyncData: typeof import('./composables/ssr-fetch')._useAsyncData
+  const _useFetch: typeof import('./composables/ssr-fetch')._useFetch
   const alova: typeof import('./composables/alova').default
   const articleCommentStore: typeof import('./composables/storage').articleCommentStore
   const articleDetailStore: typeof import('./composables/storage').articleDetailStore
@@ -67,6 +69,7 @@ declare global {
   const defineComponent: typeof import('vue').defineComponent
   const defineStore: typeof import('pinia').defineStore
   const deserializeState: typeof import('./composables/asyncData').deserializeState
+  const destr: typeof import('destr').destr
   const downloadByBase64: typeof import('./composables/download').downloadByBase64
   const downloadByData: typeof import('./composables/download').downloadByData
   const downloadByOnlineUrl: typeof import('./composables/download').downloadByOnlineUrl
@@ -88,8 +91,10 @@ declare global {
   const globalStoreWithout: typeof import('./stores/use-global-store').globalStoreWithout
   const h: typeof import('vue').h
   const ignorableWatch: typeof import('@vueuse/core').ignorableWatch
+  const initClientAsyncData: typeof import('./composables/ssr-fetch').initClientAsyncData
   const inject: typeof import('vue').inject
   const injectLocal: typeof import('@vueuse/core').injectLocal
+  const injectSSRData: typeof import('./composables/ssr-fetch').injectSSRData
   const isDefined: typeof import('@vueuse/core').isDefined
   const isProxy: typeof import('vue').isProxy
   const isReactive: typeof import('vue').isReactive
@@ -427,6 +432,8 @@ declare module 'vue' {
     readonly Get: UnwrapRef<typeof import('./composables/alova')['Get']>
     readonly Post: UnwrapRef<typeof import('./composables/alova')['Post']>
     readonly Put: UnwrapRef<typeof import('./composables/alova')['Put']>
+    readonly _useAsyncData: UnwrapRef<typeof import('./composables/ssr-fetch')['_useAsyncData']>
+    readonly _useFetch: UnwrapRef<typeof import('./composables/ssr-fetch')['_useFetch']>
     readonly alova: UnwrapRef<typeof import('./composables/alova')['default']>
     readonly articleCommentStore: UnwrapRef<typeof import('./composables/storage')['articleCommentStore']>
     readonly articleDetailStore: UnwrapRef<typeof import('./composables/storage')['articleDetailStore']>
@@ -477,6 +484,7 @@ declare module 'vue' {
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly deserializeState: UnwrapRef<typeof import('./composables/asyncData')['deserializeState']>
+    readonly destr: UnwrapRef<typeof import('destr')['destr']>
     readonly downloadByBase64: UnwrapRef<typeof import('./composables/download')['downloadByBase64']>
     readonly downloadByData: UnwrapRef<typeof import('./composables/download')['downloadByData']>
     readonly downloadByOnlineUrl: UnwrapRef<typeof import('./composables/download')['downloadByOnlineUrl']>
@@ -498,8 +506,10 @@ declare module 'vue' {
     readonly globalStoreWithout: UnwrapRef<typeof import('./stores/use-global-store')['globalStoreWithout']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
+    readonly initClientAsyncData: UnwrapRef<typeof import('./composables/ssr-fetch')['initClientAsyncData']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
+    readonly injectSSRData: UnwrapRef<typeof import('./composables/ssr-fetch')['injectSSRData']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>

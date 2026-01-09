@@ -122,8 +122,8 @@ const payload = computed(() => {
     }
 })
 
-const { data } = await useAsyncData('productLists', () => {
-    return $api.get<ProductCategory[]>('/home/category')
+const { data } = await useAsyncData('productCategory', () => {
+    return $api.get<ProductCategory[]>('/home/category?category=2')
 })
 
 console.log('%c[data.value] >> ', 'color: red')
