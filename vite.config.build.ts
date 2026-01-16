@@ -26,10 +26,22 @@ const config: { build: BuildOptions } = {
                     //     return 'main'
                     // }
                     if (id.includes('node_modules')) {
-                        if (!id.includes('element-plus')) {
-                            return 'vendor'
+                        if (id.includes('markdown') || id.includes('md')) {
+                            return 'markdown'
                         }
-                        return 'element-plus'
+                        if (id.includes('vue-pdf')) {
+                            return 'vue-pdf'
+                        }
+                        if (id.includes('codemirror')) {
+                            return 'codemirror'
+                        }
+                        if (id.includes('node_modules/vue') || id.includes('node_modules/@vue')) {
+                            return 'vue'
+                        }
+                        if (id.includes('element-plus')) {
+                            return 'element-plus'
+                        }
+                        return 'vendor'
                     }
                     if (id.includes('__uno.css')) {
                         return 'unocss'
