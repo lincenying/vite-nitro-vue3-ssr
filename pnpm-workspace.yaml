@@ -11,6 +11,71 @@ ignoreWorkspaceRootCheck: true
 # 在执行脚本时使用POSIX shell模拟器替代系统原生shell
 shellEmulator: true
 
+catalogs:
+  dev:
+    '@analogjs/vite-plugin-nitro': ^2.3.1
+    '@element-plus/icons-vue': ^2.3.2
+    '@lincy/unocss-base-config': ^2.4.2
+    '@vitejs/plugin-vue': ^6.0.4
+    '@vitejs/plugin-vue-jsx': ^5.1.4
+    '@vue-macros/define-props': ^3.1.2
+    '@vue-macros/define-props-refs': ^3.1.2
+    '@vue-macros/reactivity-transform': ^3.1.2
+    cross-env: ^10.1.0
+    mockjs: ^1.1.0
+    sass-embedded: ^1.97.3
+    typescript: ~5.9.3
+    unocss: ^66.6.2
+    unplugin-auto-import: ^21.0.0
+    unplugin-icons: ^23.0.1
+    unplugin-vue-components: ^31.0.0
+    vite: ^7.3.1
+    vite-plugin-inspect: ^11.3.3
+    vite-plugin-node-polyfills: ^0.25.0
+    vite-plugin-progress: ^0.0.7
+    vue-macros: ^3.1.2
+    vue-tsc: ^3.2.5
+
+  types:
+    '@types/markdown-it-link-attributes': ^3.0.5
+    '@types/mockjs': ^1.0.10
+    '@types/node': ^25.3.3
+    '@types/qs': ^6.14.0
+
+  prod:
+    '@lincy/async-validation': ^1.4.0
+    '@lincy/utils': ^0.7.3
+    '@tato30/vue-pdf': ^2.0.0
+    '@unhead/vue': ^2.1.9
+    '@unocss/reset': ^66.6.2
+    '@vueuse/core': ^14.2.1
+    '@vueuse/router': ^14.2.1
+    alova: ^3.5.1
+    better-sqlite3: ^12.6.2
+    default-passive-events: ^4.0.0
+    destr: ^2.0.5
+    element-plus: ^2.13.3
+    h3: ^1.15.5
+    highlight.js: ^11.11.1
+    markdown-it-link-attributes: ^4.0.1
+    md-editor-v3: ^6.3.1
+    mitt: ^3.0.1
+    nitropack: ^2.13.1
+    ofetch: ^1.5.1
+    pinia: ^3.0.4
+    qs: ^6.15.0
+    store2: ^2.14.4
+    vue: ^3.5.29
+    vue-router: ^5.0.3
+
+  lint:
+    '@lincy/eslint-config': ^6.5.1
+    '@lincy/stylelint-config': ^2.2.2
+    eslint: ^10.0.2
+    eslint-plugin-format: ^2.0.1
+    lint-staged: ^16.3.1
+    stylelint: ^17.4.0
+
 onlyBuiltDependencies:
   - better-sqlite3
   - esbuild
