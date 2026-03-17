@@ -99,8 +99,8 @@ catalogs:
       specifier: ^0.7.3
       version: 0.7.3
     '@tato30/vue-pdf':
-      specifier: ^2.0.1
-      version: 2.0.1
+      specifier: ^2.0.2
+      version: 2.0.2
     '@unhead/vue':
       specifier: ^2.1.12
       version: 2.1.12
@@ -190,7 +190,7 @@ importers:
         version: 0.7.3
       '@tato30/vue-pdf':
         specifier: catalog:prod
-        version: 2.0.1(vue@3.5.30(typescript@5.9.3))
+        version: 2.0.2(vue@3.5.30(typescript@5.9.3))
       '@unhead/vue':
         specifier: catalog:prod
         version: 2.1.12(vue@3.5.30(typescript@5.9.3))
@@ -2073,8 +2073,8 @@ packages:
   '@sxzz/popperjs-es@2.11.7':
     resolution: {integrity: sha512-Ccy0NlLkzr0Ex2FKvh2X+OyERHXJ88XJ1MXtsI9y9fGexlaXaVTPzBCRBwIxFkORuOb+uBqeu+RqnpgYTEZRUQ==}
 
-  '@tato30/vue-pdf@2.0.1':
-    resolution: {integrity: sha512-FlMGjGNGEs8PoMLoiBKOExRYHeKCEynTZ5TtdXG5Nqb1GcHVjav4M/85Sz+CIXN1ha3J/9WW0pUqiPCW0l6deQ==}
+  '@tato30/vue-pdf@2.0.2':
+    resolution: {integrity: sha512-HxzQVBaLn8ibFQOu1izyb7NCug1PT2WqdIzUcauh33X6EZNCUkAAT1I9tweHeSaXtUQhaM62KYMbEuH8hToirQ==}
     peerDependencies:
       vue: ^3.2.33
 
@@ -7835,7 +7835,7 @@ snapshots:
 
   '@sxzz/popperjs-es@2.11.7': {}
 
-  '@tato30/vue-pdf@2.0.1(vue@3.5.30(typescript@5.9.3))':
+  '@tato30/vue-pdf@2.0.2(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       pdfjs-dist: 5.4.624
       vue: 3.5.30(typescript@5.9.3)
