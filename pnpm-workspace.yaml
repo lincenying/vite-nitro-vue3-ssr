@@ -41,16 +41,16 @@ catalogs:
     mockjs: ^1.1.0
     sass-embedded: ^1.98.0
     typescript: ~5.9.3
-    unocss: ^66.6.6
+    unocss: ^66.6.7
     unplugin-auto-import: ^21.0.0
     unplugin-icons: ^23.0.1
-    unplugin-vue-components: ^31.0.0
-    vite: ^7.3.1
-    vite-plugin-inspect: ^11.3.3
-    vite-plugin-node-polyfills: ^0.25.0
+    unplugin-vue-components: ^32.0.0
+    vite: ^8.0.3
+    vite-plugin-inspect: ^12.0.0-beta.1
+    vite-plugin-node-polyfills: ^0.26.0
     vite-plugin-progress: ^0.0.7
     vue-macros: ^3.1.2
-    vue-tsc: ^3.2.5
+    vue-tsc: ^3.2.6
 
   types:
     '@types/markdown-it-link-attributes': ^3.0.5
@@ -63,34 +63,34 @@ catalogs:
     '@lincy/utils': ^0.7.3
     '@tato30/vue-pdf': ^2.0.2
     '@unhead/vue': ^2.1.12
-    '@unocss/reset': ^66.6.6
+    '@unocss/reset': ^66.6.7
     '@vueuse/core': ^14.2.1
     '@vueuse/router': ^14.2.1
     alova: ^3.5.1
     better-sqlite3: ^12.8.0
     default-passive-events: ^4.0.0
     destr: ^2.0.5
-    element-plus: ^2.13.5
-    h3: ^1.15.6
+    element-plus: ^2.13.6
+    h3: ^1.15.10
     highlight.js: ^11.11.1
     markdown-it-link-attributes: ^4.0.1
-    md-editor-v3: ^6.4.0
+    md-editor-v3: ^6.4.1
     mitt: ^3.0.1
-    nitropack: ^2.13.1
+    nitropack: ^2.13.2
     ofetch: ^1.5.1
     pinia: ^3.0.4
     qs: ^6.15.0
     store2: ^2.14.4
-    vue: ^3.5.30
-    vue-router: ^5.0.3
+    vue: ^3.5.31
+    vue-router: ^5.0.4
 
   lint:
     '@lincy/eslint-config': ^6.5.2
     '@lincy/stylelint-config': ^2.2.2
-    eslint: ^10.0.3
+    eslint: ^10.1.0
     eslint-plugin-format: ^2.0.1
     lint-staged: ^16.4.0
-    stylelint: ^17.4.0
+    stylelint: ^17.6.0
 
 onlyBuiltDependencies:
   - better-sqlite3
