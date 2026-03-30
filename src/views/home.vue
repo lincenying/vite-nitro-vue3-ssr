@@ -126,9 +126,11 @@ const { data } = await useAsyncData('productCategory', () => {
     return $api.get<ProductCategory[]>('/home/category?category=2')
 })
 
+console.group('product-category')
 console.log('%c[data.value] >> ', 'color: red')
 console.log(data.value)
 console.log('%c<< [data.value]', 'color: red')
+console.groupEnd()
 
 watch(() => [category, tag], () => {
     page = 1

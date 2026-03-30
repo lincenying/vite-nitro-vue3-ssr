@@ -4,6 +4,7 @@ import type { WatchSource } from 'vue'
 interface UseAsyncDataOptions<T> {
     key?: string
     handler: () => Promise<T>
+    /** 是否在服务器端获取数据 */
     server?: boolean
     lazy?: boolean
     default?: () => T
@@ -70,6 +71,7 @@ export async function _useAsyncData<T>(options: UseAsyncDataOptions<T>): Promise
     } = options
 
     const uniqueKey = key || `async-data-${Math.random().toString(36).slice(2)}`
+    /** 是否在服务端环境 */
     const isServer = typeof window === 'undefined'
 
     // 获取或创建请求上下文
@@ -119,8 +121,8 @@ export async function _useAsyncData<T>(options: UseAsyncDataOptions<T>): Promise
 
     // 执行异步数据获取
     const execute = async (): Promise<void> => {
-        // 如果已经在服务端获取过数据，直接使用缓存
-        if (isServer && ssrDataCache.has(uniqueKey)) {
+        // 如果在客户端, 并且已经在服务端获取过数据，直接使用缓存
+        if (!isServer && ssrDataCache.has(uniqueKey)) {
             const cachedData = ssrDataCache.get(uniqueKey)
             data.value = cachedData
             status.value = 'success'
@@ -142,8 +144,8 @@ export async function _useAsyncData<T>(options: UseAsyncDataOptions<T>): Promise
             return
         }
 
-        // 如果不是服务端环境且配置了不在客户端执行，则直接返回
-        if (!isServer && !server) {
+        // 如果是服务端环境且配置了不在服务端端执行，则直接返回
+        if (isServer && !server) {
             return
         }
 
@@ -179,7 +181,7 @@ export async function _useAsyncData<T>(options: UseAsyncDataOptions<T>): Promise
 
     // 刷新函数
     const refresh = async (): Promise<void> => {
-        // 清除缓存
+        // 如果在服务端环境，则清理缓存
         if (isServer) {
             ssrDataCache.delete(uniqueKey)
         }
@@ -203,7 +205,8 @@ export async function _useAsyncData<T>(options: UseAsyncDataOptions<T>): Promise
 
     // 立即执行（非懒加载模式）
     if (immediate && !lazy) {
-        if (!isServer && server && ssrDataCache.has(uniqueKey)) {
+        // 如果是服务端环境且配置了在服务端执行，则尝试从缓存中恢复数据
+        if (isServer && server && ssrDataCache.has(uniqueKey)) {
             const cachedData = ssrDataCache.get(uniqueKey)
             data.value = cachedData
             status.value = 'success'
@@ -227,11 +230,11 @@ export async function _useAsyncData<T>(options: UseAsyncDataOptions<T>): Promise
 
 // HTML 模板注入函数
 export function injectSSRData(html: string, req: any): string {
-    if (!requestContexts.has(req)) {
+    const context = requestContexts.get(req)
+
+    if (!context) {
         return html
     }
-
-    const context = requestContexts.get(req)!
 
     const serializedData = context.serialize()
 

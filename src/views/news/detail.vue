@@ -105,7 +105,11 @@ async function initFunc() {
     scrollToNav(navigation, -80)
 }
 
-watch(() => id, initFunc)
+watch(() => id, (newId) => {
+    if (newId) {
+        initFunc()
+    }
+})
 
 const affix = ref<ElAffixType>()
 onActivated(() => {

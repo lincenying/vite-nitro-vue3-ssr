@@ -1,5 +1,6 @@
 import { toArray } from '@lincy/utils'
 import { type App, hasInjectionContext, type WatchSource } from 'vue'
+import { isSSR } from '~/composables'
 import { useSSR } from '~/config'
 
 type AppInstance = App | null
@@ -259,8 +260,8 @@ export function useAsyncData<DataT, ErrorT = unknown>(
                 onServerPrefetch(() => p)
             }
         }
-        // 在客户端且配置不允许服务端获取的情况下执行数据获取
-        if (!isSSR && !fetchOnServer) {
+        // 在客户端且配置不允许服务端获取或者初始状态中不存在对应key的情况下执行数据获取
+        if (!isSSR && (!fetchOnServer || !initialState[key])) {
             initialFetch()
         }
     }

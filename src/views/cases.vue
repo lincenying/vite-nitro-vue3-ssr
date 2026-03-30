@@ -110,12 +110,15 @@ const { data: posts, pending, error } = await _useAsyncData({
     handler: async () => {
         return await $api.get<ProductCategory[]>('/home/category?category=1')
     },
+    server: false,
 })
 
 watch([posts, pending, error], () => {
+    console.group('cases-watch')
     console.log('%c[posts] >> ', 'color: red', posts.value)
     console.log('%c[pending] >> ', 'color: red', pending.value)
     console.log('%c[error] >> ', 'color: red', error.value)
+    console.groupEnd()
 }, {
     immediate: true,
 })
