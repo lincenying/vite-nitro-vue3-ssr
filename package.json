@@ -3,16 +3,15 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@11.2.2",
   "scripts": {
-    "prepare[-del]": "npx simple-git-hooks",
     "serve": "vite",
     "build": "vite build",
     "preview": "cross-env NODE_ENV=production HOST=127.0.0.1 PORT=5273 node .output/server/index.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:ts": "vue-tsc -b --noEmit",
-    "lint:css": "stylelint '**/*.{css,scss}' --fix",
-    "lint-staged": "lint-staged"
+    "lint:css": "stylelint '**/*.{css,scss}' --fix"
   },
   "dependencies": {
     "@lincy/async-validation": "catalog:prod",
@@ -58,7 +57,6 @@
     "cross-env": "catalog:dev",
     "eslint": "catalog:lint",
     "eslint-plugin-format": "catalog:lint",
-    "lint-staged": "catalog:lint",
     "mockjs": "catalog:dev",
     "sass-embedded": "catalog:dev",
     "stylelint": "catalog:lint",
@@ -73,12 +71,5 @@
     "vite-plugin-progress": "catalog:dev",
     "vue-macros": "catalog:dev",
     "vue-tsc": "catalog:dev"
-  },
-  "simple-git-hooks[-del]": {
-    "pre-commit": "npm run lint-staged"
-  },
-  "lint-staged[-del]": {
-    "*.{[jt]s?(x),vue,md}": "eslint --fix",
-    "*.{css,scss}": "stylelint --fix --allow-empty-input"
   }
 }
