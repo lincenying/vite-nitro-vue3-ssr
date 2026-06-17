@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "packageManager": "pnpm@11.2.2",
+  "packageManager": "pnpm@11.7.0",
   "scripts": {
     "serve": "vite",
     "build": "vite build",
@@ -16,7 +16,6 @@
   "dependencies": {
     "@lincy/async-validation": "catalog:prod",
     "@lincy/utils": "catalog:prod",
-    "@tato30/vue-pdf": "catalog:prod",
     "@unhead/vue": "catalog:prod",
     "@unocss/reset": "catalog:prod",
     "@vueuse/core": "catalog:prod",

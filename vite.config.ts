@@ -47,7 +47,6 @@ export default defineConfig(({ isSsrBuild, mode }) => {
         ssr: {
             noExternal: [
                 'element-plus',
-                '@tato30/vue-pdf', 'pdfjs-dist',
             ],
         },
         plugins: [

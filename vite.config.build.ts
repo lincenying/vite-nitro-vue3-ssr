@@ -29,9 +29,6 @@ const config: { build: BuildOptions } = {
                         if (id.includes('markdown') || id.includes('md')) {
                             return 'markdown'
                         }
-                        if (id.includes('vue-pdf')) {
-                            return 'vue-pdf'
-                        }
                         if (id.includes('codemirror')) {
                             return 'codemirror'
                         }

@@ -34,9 +34,9 @@ trustPolicyExclude:
 
 catalogs:
   dev:
-    '@analogjs/vite-plugin-nitro': ^2.5.2
+    '@analogjs/vite-plugin-nitro': ^2.6.1
     '@element-plus/icons-vue': ^2.3.2
-    '@lincy/unocss-base-config': ^2.7.1
+    '@lincy/unocss-base-config': ^2.7.3
     '@vitejs/plugin-vue': ^6.0.7
     '@vitejs/plugin-vue-jsx': ^5.1.5
     '@vue-macros/define-props': ^3.1.2
@@ -45,37 +45,36 @@ catalogs:
     cross-env: ^10.1.0
     mockjs: ^1.1.0
     sass-embedded: ^1.100.0
-    typescript: ~5.9.3
-    unocss: ^66.7.0
+    typescript: ~6.0.3
+    unocss: ^66.7.2
     unplugin-auto-import: ^21.0.0
     unplugin-icons: ^23.0.1
     unplugin-vue-components: ^32.1.0
-    vite: ^8.0.14
-    vite-plugin-inspect: ^12.0.0-beta.2
+    vite: ^8.0.16
+    vite-plugin-inspect: ^12.0.0-beta.3
     vite-plugin-node-polyfills: ^0.28.0
     vite-plugin-progress: ^0.0.7
     vue-macros: ^3.1.2
-    vue-tsc: ^3.3.1
+    vue-tsc: ^3.3.5
 
   types:
     '@types/markdown-it-link-attributes': ^3.0.5
     '@types/mockjs': ^1.0.10
-    '@types/node': ^25.9.1
+    '@types/node': ^25.9.3
     '@types/qs': ^6.15.1
 
   prod:
     '@lincy/async-validation': ^1.4.0
     '@lincy/utils': ^0.7.3
-    '@tato30/vue-pdf': ^2.1.0
-    '@unhead/vue': ^3.1.0
-    '@unocss/reset': ^66.7.0
+    '@unhead/vue': ^3.1.4
+    '@unocss/reset': ^66.7.2
     '@vueuse/core': ^14.3.0
     '@vueuse/router': ^14.3.0
     alova: ^3.5.1
-    better-sqlite3: ^12.10.0
+    better-sqlite3: ^12.11.1
     default-passive-events: ^4.0.0
     destr: ^2.0.5
-    element-plus: ^2.14.0
+    element-plus: ^2.14.2
     h3: ^1.15.11
     highlight.js: ^11.11.1
     markdown-it-link-attributes: ^4.0.1
@@ -86,19 +85,22 @@ catalogs:
     pinia: ^3.0.4
     qs: ^6.15.2
     store2: ^2.14.4
-    vue: ^3.5.34
-    vue-router: ^5.0.7
+    vue: ^3.5.38
+    vue-router: ^5.1.0
 
   lint:
     '@lincy/eslint-config': ^7.2.0
-    '@lincy/stylelint-config': ^2.2.2
-    eslint: ^10.4.0
+    '@lincy/stylelint-config': ^2.2.3
+    eslint: ^10.5.0
     eslint-plugin-format: ^2.0.1
-    lint-staged: ^16.4.0
-    stylelint: ^17.12.0
+    stylelint: ^17.13.0
 
 allowBuilds:
   '@parcel/watcher': true
   better-sqlite3: true
   esbuild: true
   oxc-resolver: true
+
+peerDependencyRules:
+  ignoreMissing:
+    - sass
