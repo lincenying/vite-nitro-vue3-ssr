@@ -95,7 +95,7 @@ export const useApi: (cookies?: Record<string, string | number | boolean>, H3Eve
                         ElMessage.closeAll()
                         error && ElMessage.error('Sorry, The Data Request Failed')
                     }
-                    console.log('[fetch response error]', error)
+                    console.log('[fetch request error]', error)
                 },
                 onResponse({ response }) {
                     const setCookies = response.headers.getSetCookie()

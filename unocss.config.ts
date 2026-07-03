@@ -1,4 +1,4 @@
-import { webConfig } from '@lincy/unocss-base-config'
+import { breakpoints, webConfig } from '@lincy/unocss-base-config'
 
 const baseConfig = webConfig('wind3', { preflight: false })
 
@@ -10,7 +10,7 @@ export default {
     ],
     theme: {
         breakpoints: {
-            m1440: '1440px',
+            ...breakpoints,
             m1360: '1360.1px',
         },
     },
