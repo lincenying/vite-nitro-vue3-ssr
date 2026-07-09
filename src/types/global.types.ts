@@ -1,6 +1,7 @@
 import type { AnyFn } from '@vueuse/core'
 import type ElAffix from 'element-plus/es/components/affix'
 import type ElScrollbar from 'element-plus/es/components/scrollbar'
+import type { IncomingMessage } from 'node:http'
 import type { Pinia } from 'pinia'
 import type { RouteComponent, RouteLocationNormalized } from 'vue-router'
 
@@ -14,7 +15,7 @@ export interface AsyncDataConfig {
     store: Pinia
     route: RouteLocationNormalized
     api: ApiType
-    req?: any
+    req?: IncomingMessage
 }
 
 export type CusRouteComponent = RouteComponent & { asyncData: (payload: AsyncDataConfig) => Promise<any> }

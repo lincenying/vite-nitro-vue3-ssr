@@ -19,6 +19,7 @@ const pendingRequest = new Map<string, AbortController>()
 export const useApi: (cookies?: Record<string, string | number | boolean>, H3Event?: H3Event, needSignal?: boolean) => ApiType = (cookies, H3Event, needSignal = false) => {
     const apiFetch = ofetch.create({
         baseURL,
+        credentials: cookies ? undefined : 'include',
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
             'Cookie': (cookies && objToCookies(cookies)) || '',
@@ -63,7 +64,9 @@ export const useApi: (cookies?: Record<string, string | number | boolean>, H3Eve
             return await this.fetch(url, method, data, options)
         },
         async fetch(url, method, data, options?: FetchOptions) {
-            console.log('%c[request-url] >> ', 'color: red', baseURL + url, data || {})
+            if (import.meta.env.VITE_APP_ENV === 'development') {
+                console.debug('[request]', baseURL + url, data || {})
+            }
             let signal: AbortSignal | undefined
             if (needSignal) {
                 this.abortKey = this.generateRequestKey({ url, method, data })
@@ -73,29 +76,30 @@ export const useApi: (cookies?: Record<string, string | number | boolean>, H3Eve
                 pendingRequest.set(this.abortKey, controller)
             }
 
+            const isDevSSR = isSSR && import.meta.env.VITE_APP_ENV === 'development'
             const response = await apiFetch(url, {
                 method,
                 query: method === 'get' ? data : undefined,
                 body: method === 'get' ? undefined : data,
                 timeout: 10000, // Timeout after 10 seconds
+                // 开发环境 SSR 可能在 Nitro 环境尚未就绪时请求 API，对 503 自动重试
+                retry: isDevSSR ? 5 : 0,
+                retryDelay: 200,
+                retryStatusCodes: [503],
                 signal,
                 ...options,
                 headers: {
                     ...options?.headers,
                     ...isFormData(data) ? { } : { 'Content-Type': 'application/json' },
                 },
-                async onRequest({ request, options }) {
-                    // Log request
-                    if (!isSSR) {
-                        console.log('[fetch request]', request, options)
-                    }
-                },
                 onRequestError({ error }) {
                     if (!isSSR) {
                         ElMessage.closeAll()
                         error && ElMessage.error('Sorry, The Data Request Failed')
                     }
-                    console.log('[fetch request error]', error)
+                    if (import.meta.env.VITE_APP_ENV === 'development') {
+                        console.debug('[fetch request error]', error)
+                    }
                 },
                 onResponse({ response }) {
                     const setCookies = response.headers.getSetCookie()
@@ -104,15 +108,22 @@ export const useApi: (cookies?: Record<string, string | number | boolean>, H3Eve
                             appendResponseHeader(H3Event, 'set-cookie', normalizeCookiePath(cookie))
                         }
                     }
-                    if (response._data.code !== 200) {
+                    if (response._data?.code !== 200) {
                         if (!isSSR)
-                            ElMessage.error(response._data.message)
-                        return response._data = null
+                            ElMessage.error(response._data?.message || '请求失败')
+                        response._data = {
+                            code: response._data?.code ?? 500,
+                            message: response._data?.message ?? '请求失败',
+                            data: null,
+                        }
+                        return response._data
                     }
-                    return response._data = response._data || 'success'
+                    return response._data
                 },
                 onResponseError({ response }) {
-                    console.log('[fetch response error]', response.status)
+                    if (import.meta.env.VITE_APP_ENV === 'development') {
+                        console.debug('[fetch response error]', response.status)
+                    }
                 },
             })
             return response
@@ -123,4 +134,4 @@ if (typeof window !== 'undefined') {
     window.$$api = useApi()
 }
 export const $api = useApi()
-export const $fetch = useApi()
+export const $fetch = useApi(undefined, undefined, true)

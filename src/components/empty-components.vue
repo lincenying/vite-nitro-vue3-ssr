@@ -7,7 +7,7 @@ defineOptions({
     name: 'EmptyComponents',
 })
 
-const { title = 'Empty Components' } = defineProps<{
+const { title } = definePropsRefs<{
     title?: string
 }>()
 </script>

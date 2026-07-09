@@ -1,7 +1,8 @@
 import type { ProductCategory, ProductState } from '../types/pinia.types'
-import type { NewsType } from '~/types/news.types'
+import type { ProductDetailType } from '~/types/home.types'
 import { isEmpty } from '@lincy/utils'
 import { acceptHMRUpdate } from 'pinia'
+import * as productApi from '~/api/product'
 import { defaultList } from '~/constants'
 
 interface PayloadType {
@@ -25,41 +26,39 @@ const usePiniaStore = defineStore('productStore', () => {
     }
 
     const getIndex = async (payload: PayloadType, api: ApiType = $api) => {
-        const { code, data } = await api.get<ProductState['index']>('/home/lists', payload)
+        const { code, data } = await productApi.fetchProductList(api, payload)
         if (code === 200 && !isEmpty(data)) {
             state.index = data
         }
     }
 
     const getCategory = async (api: ApiType = $api) => {
-        const { code, data } = await api.get<ProductState['category']>('/home/category', { })
+        const { code, data } = await productApi.fetchProductCategory(api)
         if (code === 200 && !isEmpty(data)) {
             state.category = data
         }
     }
 
     const getRecommend = async (api: ApiType = $api) => {
-        const { code, data } = await api.get<ProductState['recommend']>('/home/recommend', { })
+        const { code, data } = await productApi.fetchProductRecommend(api)
         if (code === 200 && !isEmpty(data)) {
             state.recommend = data
         }
     }
 
     const getDetail = async (id: string, api: ApiType = $api) => {
-        const { code, data } = await api.get<NewsType>('/news/detail', { id })
+        const { code, data } = await productApi.fetchProductDetail(api, id)
         if (code === 200 && !isEmpty(data)) {
-            state.detail[id] = data
+            state.detail[id] = data as ProductDetailType
         }
-
         return data
     }
 
     const getRelatedRecom = async (api: ApiType = $api) => {
-        const { code, data } = await api.get<ProductState['relatedRecom']>('/home/related-recom', { })
+        const { code, data } = await productApi.fetchProductRelatedRecom(api)
         if (code === 200 && !isEmpty(data)) {
             state.relatedRecom = data
         }
-
         return data
     }
 
@@ -73,6 +72,7 @@ const usePiniaStore = defineStore('productStore', () => {
         getRelatedRecom,
     }
 })
+
 export default usePiniaStore
 export const productStoreWithout = () => usePiniaStore(piniaInit)
 

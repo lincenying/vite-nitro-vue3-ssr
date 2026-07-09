@@ -1,7 +1,6 @@
 import type { Router, RouteRecordRaw } from 'vue-router'
 
 import type { CusRouteComponent } from '~/types/global.types'
-import ls from 'store2'
 import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router'
 
 const views = import.meta.glob('../views/**/*.vue')
@@ -14,7 +13,7 @@ Object.keys(views).forEach((path: string) => {
         routes.push({
             name: name.replace('/', ''),
             path: name === '/home' ? '/' : name,
-            component: views[path], // () => import('./views/**/*.vue')
+            component: views[path],
         })
     }
     return {}
@@ -33,11 +32,16 @@ if (!useSSR) {
 
 export function routerBeforeResolve(router: Router) {
     router.beforeResolve(async (to, from) => {
-        const token = ls.get('token')
-        if (!token && to.path !== '/login') {
-            return { path: '/login' }
+        const userStore = useUserStore()
+
+        if (to.path !== '/login' && !userStore.isLoggedIn) {
+            const loggedIn = await userStore.fetchProfile()
+            if (!loggedIn) {
+                return { path: '/login' }
+            }
         }
-        if (token && to.path === '/login') {
+
+        if (to.path === '/login' && userStore.isLoggedIn) {
             return { path: '/' }
         }
 

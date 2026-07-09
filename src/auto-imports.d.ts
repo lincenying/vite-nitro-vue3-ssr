@@ -41,9 +41,11 @@ declare global {
   const computedEager: typeof import('@vueuse/core').computedEager
   const computedInject: typeof import('@vueuse/core').computedInject
   const computedWithControl: typeof import('@vueuse/core').computedWithControl
+  const confirmMsg: typeof import('./composables/message').confirmMsg
   const controlledComputed: typeof import('@vueuse/core').controlledComputed
   const controlledRef: typeof import('@vueuse/core').controlledRef
   const createApp: typeof import('vue').createApp
+  const createContentStore: typeof import('./stores/create-content-store').createContentStore
   const createDisposableDirective: typeof import('@vueuse/core').createDisposableDirective
   const createEventHook: typeof import('@vueuse/core').createEventHook
   const createGlobalState: typeof import('@vueuse/core').createGlobalState
@@ -140,6 +142,7 @@ declare global {
   const productDetailStore: typeof import('./composables/storage').productDetailStore
   const productListStore: typeof import('./composables/storage').productListStore
   const productStoreWithout: typeof import('./stores/use-product-store').productStoreWithout
+  const promptMsg: typeof import('./composables/message').promptMsg
   const provide: typeof import('vue').provide
   const provideLocal: typeof import('@vueuse/core').provideLocal
   const reactify: typeof import('@vueuse/core').reactify
@@ -168,6 +171,7 @@ declare global {
   const setClientInstanceProperties: typeof import('./composables/asyncData').setClientInstanceProperties
   const setMenuActive: typeof import('./composables/emitter').setMenuActive
   const setupPinia: typeof import('./stores/index').setupPinia
+  const setupStoreHMR: typeof import('./stores/create-content-store').setupStoreHMR
   const shallowReactive: typeof import('vue').shallowReactive
   const shallowReadonly: typeof import('vue').shallowReadonly
   const shallowRef: typeof import('vue').shallowRef
@@ -458,9 +462,11 @@ declare module 'vue' {
     readonly computedEager: UnwrapRef<typeof import('@vueuse/core')['computedEager']>
     readonly computedInject: UnwrapRef<typeof import('@vueuse/core')['computedInject']>
     readonly computedWithControl: UnwrapRef<typeof import('@vueuse/core')['computedWithControl']>
+    readonly confirmMsg: UnwrapRef<typeof import('./composables/message')['confirmMsg']>
     readonly controlledComputed: UnwrapRef<typeof import('@vueuse/core')['controlledComputed']>
     readonly controlledRef: UnwrapRef<typeof import('@vueuse/core')['controlledRef']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
+    readonly createContentStore: UnwrapRef<typeof import('./stores/create-content-store')['createContentStore']>
     readonly createDisposableDirective: UnwrapRef<typeof import('@vueuse/core')['createDisposableDirective']>
     readonly createEventHook: UnwrapRef<typeof import('@vueuse/core')['createEventHook']>
     readonly createGlobalState: UnwrapRef<typeof import('@vueuse/core')['createGlobalState']>
@@ -495,7 +501,6 @@ declare module 'vue' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly element: UnwrapRef<typeof import('./config/element')['default']>
-    readonly emitter: UnwrapRef<typeof import('./composables/emitter')['default']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly faqCommentStore: UnwrapRef<typeof import('./composables/storage')['faqCommentStore']>
     readonly faqsDetailStore: UnwrapRef<typeof import('./composables/storage')['faqsDetailStore']>
@@ -557,6 +562,7 @@ declare module 'vue' {
     readonly productDetailStore: UnwrapRef<typeof import('./composables/storage')['productDetailStore']>
     readonly productListStore: UnwrapRef<typeof import('./composables/storage')['productListStore']>
     readonly productStoreWithout: UnwrapRef<typeof import('./stores/use-product-store')['productStoreWithout']>
+    readonly promptMsg: UnwrapRef<typeof import('./composables/message')['promptMsg']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
@@ -584,6 +590,7 @@ declare module 'vue' {
     readonly setClientInstanceProperties: UnwrapRef<typeof import('./composables/asyncData')['setClientInstanceProperties']>
     readonly setMenuActive: UnwrapRef<typeof import('./composables/emitter')['setMenuActive']>
     readonly setupPinia: UnwrapRef<typeof import('./stores/index')['setupPinia']>
+    readonly setupStoreHMR: UnwrapRef<typeof import('./stores/create-content-store')['setupStoreHMR']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>

@@ -1,29 +1,67 @@
 import type { UserState } from '../types/pinia.types'
 import { acceptHMRUpdate } from 'pinia'
+import { fetchUserProfile, logoutUser } from '~/api/user'
 import { userStorage } from '~/composables/storage'
 
 const usePiniaStore = defineStore('userStore', () => {
     const state: UserState = reactive(userStorage.value || {
-        info: {}, // 用户信息
+        info: {},
         token: '',
     })
 
+    const isLoggedIn = computed(() => !!state.info?.name)
+
     /**
-     * 设置token
-     * @param payload string
+     * 设置用户信息
+     */
+    const setInfo = (payload: Objable) => {
+        state.info = payload
+    }
+
+    /**
+     * 设置登录 token
      */
     const setToken = (payload: string) => {
         state.token = payload
     }
 
-    const setInfo = (payload: Objable) => {
-        state.info = payload
+    /**
+     * 清除用户状态
+     */
+    const clearUser = () => {
+        state.info = {}
+        state.token = ''
+    }
+
+    /**
+     * 从服务端获取当前登录用户
+     */
+    const fetchProfile = async (api: ApiType = $api) => {
+        const { code, data } = await fetchUserProfile(api)
+        if (code === 200 && data) {
+            setInfo(data)
+            return true
+        }
+        clearUser()
+        return false
+    }
+
+    /**
+     * 登出
+     */
+    const logout = async (api: ApiType = $api) => {
+        await logoutUser(api)
+        clearUser()
     }
 
     return {
         ...toRefs(state),
-        setToken,
+        isLoggedIn,
         setInfo,
+        setToken,
+        clearUser,
+        fetchProfile,
+        logout,
     }
 })
 
